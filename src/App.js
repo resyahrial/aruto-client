@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import { Home, Register, Login } from "./pages";
+import { Home, Register, Login, Success, Error } from "./pages";
 import { Navbar, Footer } from "./components";
 
 function App() {
@@ -9,6 +9,12 @@ function App() {
     <Router>
       <Navbar />
       <Switch>
+        <Route path="/success">
+          <Success />
+        </Route>
+        <Route path="/error">
+          <Error />
+        </Route>
         <Route path="/register">
           <Register />
         </Route>
