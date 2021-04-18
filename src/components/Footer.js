@@ -7,6 +7,7 @@ import FooterBg from "../assets/images/FooterBg.jpg";
 import FacebookIcon from "../assets/icons/facebook.svg";
 import TwitterIcon from "../assets/icons/twitter.svg";
 import InstagramIcon from "../assets/icons/instagram.svg";
+import '../assets/style/style.css'
 
 const showFooterPath = ["/", "/product", "/shopping"];
 
@@ -19,13 +20,14 @@ export default function Footer() {
 
   return (
     <footer
+    className="mt-content"
       style={{
         backgroundImage: `url(${FooterBg})`,
         height: 400,
         paddingTop: 150,
       }}
     >
-      <div className="container">
+      <div className="container ">
         <div className="row">
           <div className="col-3">
             <img src={LogoImage} alt="logo" className="mt-2" />

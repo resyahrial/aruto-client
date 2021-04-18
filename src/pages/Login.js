@@ -26,11 +26,7 @@ export default function Login() {
                     <img className="w-75 " src={UserIcon} alt="user" />
                   </div>
                   <div>
-                    <input
-                      placeholder="Fullname"
-                      type="text"
-                      className="input"
-                    />
+                    <input placeholder="Email" type="email" className="input" />
                   </div>
                 </div>
                 <div className="input-div">
@@ -47,9 +43,9 @@ export default function Login() {
                 </div>
                 <button
                   type="button"
-                  className="btn style-btn btn-primary text-white mt-5"
+                  className="btn btn-theme-blue text-white mt-5"
                 >
-                  login
+                  Login
                 </button>
                 <p className="mt-5">
                   Don't have an account?

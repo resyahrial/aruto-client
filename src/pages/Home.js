@@ -1,6 +1,5 @@
 import React from "react";
 
-import "../assets/style/style.css";
 import {
   Banner,
   BestArtist,
@@ -8,15 +7,18 @@ import {
   ListDesign,
   BestDesign,
 } from "../components";
+import "../assets/style/style.css";
 
 export default function Home() {
   return (
-    <div className="container">
+    <div>
       <Banner />
-      <BestArtist />
-      <Category />
-      <ListDesign />
-      <BestDesign />
+      <div className="container">
+        <BestArtist />
+        <Category />
+        <ListDesign />
+        <BestDesign />
+      </div>
     </div>
   );
 }

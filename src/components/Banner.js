@@ -18,14 +18,14 @@ export default function Banner(){
             <div>
             <img
               src="https://cdn.shopify.com/s/files/1/0255/3331/7156/files/TieDyeForThis.jpg?v=1613629456"
-              class="d-block w-100"
+              className="d-block w-100"
               alt="..."
             />
           </div>
           <div>
             <img
               src="https://cdn.shopify.com/s/files/1/0255/3331/7156/files/TieDyeForThis.jpg?v=1613629456"
-              class="d-block w-100"
+              className="d-block w-100"
               alt="..."
             />
           </div>
