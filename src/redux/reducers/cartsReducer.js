@@ -8,7 +8,7 @@ const initialState = {
 // ex: arts/fetch, arts/add, users/login
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case "arts/fetch":
+    case "":
       return { ...state, ...payload };
 
     default:
