@@ -171,3 +171,139 @@ input::-webkit-input-placeholder {
     max-width: 100%;
   }
 }
+
+/*********************** PRODUCT PAGE ***********************/
+
+.btn-pay {
+  width: 100%;
+}
+
+.item-cart {
+  height: 125px;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/*********************** USER PROFILE ***********************/
+
+.btn-add {
+  width: 100%;
+}
+
+.user-pic {
+  /* width: 100%; */
+  object-fit: cover;
+  object-position: center;
+  height: 100px;
+  width: 100px;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.username {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.job-text {
+  font-size: 0.781rem;
+  margin: 0;
+}
+
+.info-text {
+  font-size: 1rem;
+}
+
+.user-info-height {
+  height: 400px;
+}
+
+.my-art {
+  height: 120px;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/*********************** PRODUCT PAGE ***********************/
+
+.detail-button {
+  width: 100%;
+}
+
+.dot {
+  height: 25px;
+  width: 25px;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.dot-white {
+  background-color: #fff;
+}
+
+.dot-black {
+  background-color: #000;
+  border-color: gray;
+}
+
+.dot-red {
+  background-color: #f00;
+}
+
+.dot-green {
+  background-color: #008000;
+}
+
+.dot-yellow {
+  background-color: #ff0;
+}
+
+.dot-blue {
+  background-color: #0000ff;
+}
+
+.art-1 {
+  height: 120px;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.drawing-area {
+  position: absolute;
+  top: 60px;
+  left: 122px;
+  z-index: 10;
+  width: 200px;
+  height: 400px;
+}
+
+.canvas-container {
+  width: 200px;
+  height: 400px;
+  position: relative;
+  user-select: none;
+}
+
+#tshirt-div {
+  width: 452px;
+  height: 548px;
+  position: relative;
+  background-color: #fff;
+}
+
+#tshirt-canvas {
+  position: absolute;
+  width: 200px;
+  height: 400px;
+  left: 0px;
+  top: 0px;
+  user-select: none;
+  cursor: default;
+}
