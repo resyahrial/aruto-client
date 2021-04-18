@@ -49,7 +49,7 @@ export default function Navbar() {
           <li className="nav-item">
             <Link
               className="nav-link btn btn-outline-primary text-primary btn-sm"
-              to="/"
+              to="/register"
               style={{ width: 100 }}
             >
               Sign Up
@@ -58,7 +58,7 @@ export default function Navbar() {
           <li className="nav-item">
             <Link
               className="nav-link btn btn-primary btn-sm text-white"
-              to="/"
+              to="/login"
               style={{ width: 100 }}
             >
               Sign In
