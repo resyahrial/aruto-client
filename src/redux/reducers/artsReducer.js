@@ -1,5 +1,5 @@
 const initialState = {
-  data: [],
+  arts: [],
   isLoading: false,
   error: null,
 };
@@ -9,7 +9,7 @@ const initialState = {
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case "arts/fetch":
-      return { ...state, ...payload };
+      return { ...state, arts: payload };
 
     default:
       return state;

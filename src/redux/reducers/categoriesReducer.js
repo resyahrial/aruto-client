@@ -1,5 +1,5 @@
 const initialState = {
-  data: [],
+  categories: [],
   isLoading: false,
   error: null,
 };
@@ -8,8 +8,8 @@ const initialState = {
 // ex: arts/fetch, arts/add, users/login
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case "":
-      return { ...state, ...payload };
+    case "category/setCategory":
+      return { ...state, categories: payload };
 
     default:
       return state;

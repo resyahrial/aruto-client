@@ -15,9 +15,9 @@ export default function Home() {
       <Banner />
       <div className="container">
         <BestArtist />
-        <Category />
-        <ListDesign />
-        <BestDesign />
+        <Category /> 
+        <ListDesign /> 
+        <BestDesign/>   
       </div>
     </div>
   );
