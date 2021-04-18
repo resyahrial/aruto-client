@@ -3,10 +3,6 @@ import { Link } from "react-router-dom";
 
 import "../assets/style/style.css";
 import { SideLeft } from "../components";
-import UserIcon from "../assets/images/user.svg";
-import PasswordIcon from "../assets/images/icon-pass.svg";
-import EnvelopeIcon from "../assets/images/envelope.svg";
-
 export default function Register() {
   return (
     <div className="container-fluid mx-0 px-0">
@@ -21,7 +17,8 @@ export default function Register() {
               <form className="mt-0 w-100">
                 <div className="input-div">
                   <div className="d-flex justify-content-center align-items-center">
-                    <img className="w-75 " src={UserIcon} alt="user" />
+                    <img className="w-75 "  src='/images/user.svg' alt="user" />
+                    
                   </div>
                   <div>
                     <input
@@ -33,7 +30,7 @@ export default function Register() {
                 </div>
                 <div className="input-div">
                   <div className="d-flex justify-content-center align-items-center">
-                    <img className="w-75 " src={EnvelopeIcon} alt="envelope" />
+                    <img className="w-75 "  src='/images/envelope.svg' alt="envelope" />
                   </div>
                   <div>
                     <input placeholder="Email" type="email" className="input" />
@@ -41,7 +38,7 @@ export default function Register() {
                 </div>
                 <div className="input-div">
                   <div className="d-flex justify-content-center height-icon align-items-center">
-                    <img className="w-75 " src={PasswordIcon} alt="password" />
+                    <img className="w-75 "  src='/images/icon-pass.svg' alt="password" />
                   </div>
                   <div>
                     <input
@@ -53,7 +50,7 @@ export default function Register() {
                 </div>
                 <div className="input-div">
                   <div className="d-flex justify-content-center height-icon align-items-center">
-                    <img className="w-75 " src={PasswordIcon} alt="password" />
+                    <img className="w-75 " src='/images/icon-pass.svg' alt="password" />
                   </div>
                   <div>
                     <input
