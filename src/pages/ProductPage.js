@@ -4,25 +4,36 @@ import { fabric } from "fabric";
 import tShirt from "../assets/images/background_tshirt.png";
 import AnotherArtCard from "../components/AnotherArtCard";
 import domtoimage from "dom-to-image";
+import { useDispatch, useSelector, useStore } from "react-redux";
+import { useParams } from "react-router-dom";
+import { fetchArtsById } from "../redux/actions/arts";
 
 export default function ProductPage() {
+  const params = useParams();
+  const dispatch = useDispatch();
+  const artById = useSelector((state) => state.arts.dataById);
+  const isLoading = useSelector((state) => state.arts.isLoading);
+  const error = useSelector((state) => state.arts.error);
+
   const [canvas, setCanvas] = useState("");
   const [tShirtColor, setTshirtColor] = useState("#fff");
   const [refTshirt] = useState(React.createRef());
   const [createdImage, setCreatedImage] = useState("");
   const [logo, setLogo] = useState(false);
   const [img, setImg] = useState(
-    "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/90da6c6e-f7bc-4624-aa35-f8260d9eec89/deembtl-89867fac-83e1-4f54-bd11-fd06bc02aedf.jpg/v1/fill/w_1280,h_960,q_75,strp/the_great_duchess_by_ayuana_deembtl-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3siaGVpZ2h0IjoiPD05NjAiLCJwYXRoIjoiXC9mXC85MGRhNmM2ZS1mN2JjLTQ2MjQtYWEzNS1mODI2MGQ5ZWVjODlcL2RlZW1idGwtODk4NjdmYWMtODNlMS00ZjU0LWJkMTEtZmQwNmJjMDJhZWRmLmpwZyIsIndpZHRoIjoiPD0xMjgwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.TvojkHp0fOaWpxz7oUf2QdcyKK2Fe3AMDjzLx8AxmOM"
+    "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/1d43f478-b462-41e5-a82e-3880cb4ba0df/deggwdt-fafc9e0f-f60c-422e-b6bb-baa8c5a2a918.png/v1/fill/w_1280,h_734,q_80,strp/levi_ackerman___fan_art_commission_by_twinngo_deggwdt-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3siaGVpZ2h0IjoiPD03MzQiLCJwYXRoIjoiXC9mXC8xZDQzZjQ3OC1iNDYyLTQxZTUtYTgyZS0zODgwY2I0YmEwZGZcL2RlZ2d3ZHQtZmFmYzllMGYtZjYwYy00MjJlLWI2YmItYmFhOGM1YTJhOTE4LnBuZyIsIndpZHRoIjoiPD0xMjgwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.dRC_ikRvgurcKAHYzNRa0fZuv7N57x2LEFSvcaRUMHc"
   );
   const [parsedImg, setParsedImg] = useState("");
 
   useEffect(() => {
+    dispatch(fetchArtsById(params.id));
+
     setCanvas(tShirtCanvas());
     if (!canvas._object) {
       setLogo(true);
     }
 
-    toDataURL(img, function (dataUrl) {
+    toDataURL(artById?.image_url, function (dataUrl) {
       setParsedImg(dataUrl);
     });
 
@@ -36,6 +47,8 @@ export default function ProductPage() {
       });
     }
   }, [logo, parsedImg]);
+
+  console.log(artById.image_url);
 
   function toDataURL(url, callback) {
     let xhr = new XMLHttpRequest();
@@ -77,6 +90,22 @@ export default function ProductPage() {
   const changeColor = (color) => {
     setTshirtColor(color);
   };
+
+  // if (isLoading) {
+  //   return (
+  //     <>
+  //       <h1>Now Loading</h1>
+  //     </>
+  //   );
+  // }
+
+  // if (error) {
+  //   return (
+  //     <>
+  //       <h1>Error</h1>
+  //     </>
+  //   );
+  // }
 
   return (
     <>

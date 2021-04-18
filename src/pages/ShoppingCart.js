@@ -33,6 +33,20 @@ export default function ShoppingCart() {
             </div>
             <div className="col-lg-4">
               <div className="border">
+                <div className="form-group pt-3">
+                  <div className="row">
+                    <div className="col-4 text-center">
+                      <label>Address</label>
+                    </div>
+                    <div className="col-8 pr-4">
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Input Your Address Here"
+                      />
+                    </div>
+                  </div>
+                </div>
                 <div className="col pt-3">
                   <div className="row">
                     <div className="col-6">
@@ -85,7 +99,7 @@ export default function ShoppingCart() {
             </div>
           </div>
 
-          <div className="col-lg-8 pt-5">
+          {/* <div className="col-lg-8 pt-5">
             <h4 className="pb-3">Buyer Information</h4>
             <form className="py-3">
               <div className="form-group pb-3">
@@ -129,7 +143,7 @@ export default function ShoppingCart() {
                 </div>
               </div>
             </form>
-          </div>
+          </div> */}
         </div>
       </section>
     </>

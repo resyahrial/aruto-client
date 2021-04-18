@@ -1,5 +1,8 @@
 import React from "react";
 
+import EditIcon from "../assets/icons/edit.svg";
+import DeleteIcon from "../assets/icons/delete.svg";
+
 export default function CartItemCard() {
   return (
     <>
@@ -22,10 +25,10 @@ export default function CartItemCard() {
             <div className="col-3">
               <div className="row">
                 <div className="col-6 px-1 text-center">
-                  <p>Edit</p>
+                  <img src={EditIcon} alt="logo" width={25} height={25} />
                 </div>
                 <div className="col-6 px-1 text-center">
-                  <p>Remove</p>
+                  <img src={DeleteIcon} alt="logo" width={25} height={25} />
                 </div>
               </div>
             </div>
