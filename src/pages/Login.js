@@ -24,8 +24,8 @@ export default function Login() {
                     </div>
                     <div>
                       <input
-                        placeholder="Fullname"
-                        type="text"
+                        placeholder="Email"
+                        type="email"
                         className="input"
                       />
                     </div>
@@ -46,9 +46,9 @@ export default function Login() {
                   </div>
                   <button
                     type="button"
-                    className="btn style-btn btn-primary text-white mt-5"
+                    class="btn btn-theme-blue text-white mt-5"
                   >
-                    login
+                    Login
                   </button>
                   <p className="mt-5">
                     Don't have an account?
