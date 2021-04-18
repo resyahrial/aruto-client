@@ -1,6 +1,6 @@
 import React from "react";
-import Footer from "../components/Footer";
-import MyArtCart from "../components/MyArtCard";
+
+import { MyArtCard } from "../components";
 
 export default function UserProfile() {
   return (
@@ -71,7 +71,7 @@ export default function UserProfile() {
 
             <div className="col-lg-8 border p-0">
               <div className="col-lg py-3 border-bottom mb-3">
-                <nav class="navbar navbar-expand-lg navbar-light">
+                <nav className="navbar navbar-expand-lg navbar-light">
                   <ul className="navbar-nav mr-auto">
                     <li className="nav-item active">
                       <a className="nav-link" href="true">
@@ -93,21 +93,20 @@ export default function UserProfile() {
               </div>
               <div className="col-lg">
                 <div className="row">
-                  <MyArtCart />
-                  <MyArtCart />
-                  <MyArtCart />
-                  <MyArtCart />
-                  <MyArtCart />
-                  <MyArtCart />
-                  <MyArtCart />
-                  <MyArtCart />
-                  <MyArtCart />
+                  <MyArtCard />
+                  <MyArtCard />
+                  <MyArtCard />
+                  <MyArtCard />
+                  <MyArtCard />
+                  <MyArtCard />
+                  <MyArtCard />
+                  <MyArtCard />
+                  <MyArtCard />
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <Footer />
       </section>
     </>
   );

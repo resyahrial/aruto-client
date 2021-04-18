@@ -1,6 +1,6 @@
 import React from "react";
-import CartItemCard from "../components/CartItemCard";
-import Footer from "../components/Footer";
+
+import { CartItemCard } from "../components";
 
 export default function ShoppingCart() {
   return (
@@ -131,7 +131,6 @@ export default function ShoppingCart() {
             </form>
           </div>
         </div>
-        <Footer />
       </section>
     </>
   );

@@ -21,17 +21,14 @@ function App() {
         <Route path="/product/:id">
           <ProductPage />
         </Route>
-        <Route path="/profile/:id">
+        <Route path="/profile">
           <UserProfile />
         </Route>
-        <Route path="/cart/:id">
+        <Route path="/cart">
           <ShoppingCart />
         </Route>
         <Route path="/success">
           <Success />
-        </Route>
-        <Route path="/error">
-          <Error />
         </Route>
         <Route path="/register">
           <Register />
@@ -39,8 +36,11 @@ function App() {
         <Route path="/login">
           <Login />
         </Route>
-        <Route path="/">
+        <Route exact path="/">
           <Home />
+        </Route>
+        <Route path="*">
+          <Error />
         </Route>
       </Switch>
       <Footer />

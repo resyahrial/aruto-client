@@ -6,3 +6,5 @@ export { default as BestDesign } from "./BestDesign";
 export { default as Category } from "./Category";
 export { default as ListDesign } from "./ListDesign";
 export { default as SideLeft } from "./SideLeft";
+export { default as CartItemCard } from "./CartItemCard";
+export { default as MyArtCard } from "./MyArtCard";

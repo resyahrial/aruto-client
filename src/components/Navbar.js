@@ -1,12 +1,15 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
-const hideNavbarPath = ["/login", "/register", "/success", "/error"];
+const showNavbarPath = ["/", "/profile", "/cart"];
 
 export default function Navbar() {
   const location = useLocation();
 
-  if (hideNavbarPath.includes(location.pathname)) {
+  if (
+    !showNavbarPath.includes(location.pathname) &&
+    !location.pathname.includes("/product")
+  ) {
     return false;
   }
 
@@ -30,7 +33,12 @@ export default function Navbar() {
             className="position-absolute d-flex align-items-center pr-4"
             style={{ right: 0, top: 0, bottom: 0 }}
           >
-            <img src="/images/search.svg" alt="search_icon" width={16} height={16} />
+            <img
+              src="/images/search.svg"
+              alt="search_icon"
+              width={16}
+              height={16}
+            />
           </div>
         </form>
         <ul
@@ -38,8 +46,13 @@ export default function Navbar() {
           style={{ width: "30%" }}
         >
           <li className="nav-item">
-            <Link className="nav-link btn btn-sm" to="/">
-              <img src="/icons/cart.svg" alt="cart_icon" width={32} height={32} />
+            <Link className="nav-link" to="/cart">
+              <img
+                src="/icons/cart.svg"
+                alt="cart_icon"
+                width={32}
+                height={32}
+              />
             </Link>
           </li>
           <li className="nav-item">

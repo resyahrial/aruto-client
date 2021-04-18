@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { fabric } from "fabric";
+
 import tShirt from "../assets/images/background_tshirt.png";
 import AnotherArtCard from "../components/AnotherArtCard";
 import domtoimage from "dom-to-image";
-import Footer from "../components/Footer";
 
 export default function ProductPage() {
   const [canvas, setCanvas] = useState("");
@@ -204,7 +204,6 @@ export default function ProductPage() {
           </div>
         </div>
       </section>
-      <Footer />
     </>
   );
 }

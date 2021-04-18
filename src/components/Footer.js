@@ -7,20 +7,23 @@ import FooterBg from "../assets/images/FooterBg.jpg";
 import FacebookIcon from "../assets/icons/facebook.svg";
 import TwitterIcon from "../assets/icons/twitter.svg";
 import InstagramIcon from "../assets/icons/instagram.svg";
-import '../assets/style/style.css'
+import "../assets/style/style.css";
 
-const showFooterPath = ["/", "/product", "/shopping"];
+const showFooterPath = ["/", "/profile", "/cart"];
 
 export default function Footer() {
   const location = useLocation();
 
-  if (!showFooterPath.includes(location.pathname)) {
+  if (
+    !showFooterPath.includes(location.pathname) &&
+    !location.pathname.includes("/product")
+  ) {
     return false;
   }
 
   return (
     <footer
-    className="mt-content"
+      className="mt-content"
       style={{
         backgroundImage: `url(${FooterBg})`,
         height: 400,
