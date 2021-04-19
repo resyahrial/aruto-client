@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { fabric } from "fabric";
 
 import tShirt from "../assets/images/background_tshirt.png";
-import AnotherArtCard from "../components/AnotherArtCard";
-import domtoimage from "dom-to-image";
-import { useDispatch, useSelector, useStore } from "react-redux";
+// import AnotherArtCard from "../components/AnotherArtCard";
+// import domtoimage from "dom-to-image";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchArtsById } from "../redux/actions/arts";
 
@@ -12,57 +12,52 @@ export default function ProductPage() {
   const params = useParams();
   const dispatch = useDispatch();
   const artById = useSelector((state) => state.arts.dataById);
-  const isLoading = useSelector((state) => state.arts.isLoading);
-  const error = useSelector((state) => state.arts.error);
+  // const isLoading = useSelector((state) => state.arts.isLoading);
+  // const error = useSelector((state) => state.arts.error);
 
   const [canvas, setCanvas] = useState("");
   const [tShirtColor, setTshirtColor] = useState("#fff");
-  const [refTshirt] = useState(React.createRef());
-  const [createdImage, setCreatedImage] = useState("");
-  const [logo, setLogo] = useState(false);
-  const [img, setImg] = useState(
-    "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/1d43f478-b462-41e5-a82e-3880cb4ba0df/deggwdt-fafc9e0f-f60c-422e-b6bb-baa8c5a2a918.png/v1/fill/w_1280,h_734,q_80,strp/levi_ackerman___fan_art_commission_by_twinngo_deggwdt-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3siaGVpZ2h0IjoiPD03MzQiLCJwYXRoIjoiXC9mXC8xZDQzZjQ3OC1iNDYyLTQxZTUtYTgyZS0zODgwY2I0YmEwZGZcL2RlZ2d3ZHQtZmFmYzllMGYtZjYwYy00MjJlLWI2YmItYmFhOGM1YTJhOTE4LnBuZyIsIndpZHRoIjoiPD0xMjgwIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.dRC_ikRvgurcKAHYzNRa0fZuv7N57x2LEFSvcaRUMHc"
-  );
-  const [parsedImg, setParsedImg] = useState("");
+  const [addArt, setAddArt] = useState(false);
+  const [selectedItem, setSelectedItem] = useState("artboard");
+  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedQuantity, setSelectedQuantity] = useState("");
+
+  // const [refTshirt] = useState(React.createRef());
+  // const [createdImage, setCreatedImage] = useState("");
+  // const [logo, setLogo] = useState(false);
+  // const [img, setImg] = useState("Insert Your Image URL for Custom development");
+  // const [parsedImg, setParsedImg] = useState("");
 
   useEffect(() => {
     dispatch(fetchArtsById(params.id));
-
     setCanvas(tShirtCanvas());
-    if (!canvas._object) {
-      setLogo(true);
-    }
 
-    toDataURL(artById?.image_url, function (dataUrl) {
-      setParsedImg(dataUrl);
-    });
+    // if (!canvas._object) {
+    //   setLogo(true);
+    // }
+  }, [dispatch, params.id]);
 
-    if (logo && parsedImg) {
-      fabric.Image.fromURL(parsedImg, function (myImg) {
-        myImg.scaleToHeight(200);
-        myImg.scaleToWidth(200);
-        canvas.centerObject(myImg);
-        canvas.add(myImg);
-        canvas.renderAll();
-      });
-    }
-  }, [logo, parsedImg]);
+  // console.log(artById);
 
-  console.log(artById.image_url);
+  // if (artById?.image_url) {
+  //   toDataURL(parsedImg, function (dataUrl) {
+  //     setParsedImg(dataUrl);
+  //   });
+  // }
 
-  function toDataURL(url, callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-      let reader = new FileReader();
-      reader.onloadend = function () {
-        callback(reader.result);
-      };
-      reader.readAsDataURL(xhr.response);
-    };
-    xhr.open("GET", url);
-    xhr.responseType = "blob";
-    xhr.send();
-  }
+  // function toDataURL(url, callback) {
+  //   let xhr = new XMLHttpRequest();
+  //   xhr.onload = function () {
+  //     let reader = new FileReader();
+  //     reader.onloadend = function () {
+  //       callback(reader.result);
+  //     };
+  //     reader.readAsDataURL(xhr.response);
+  //   };
+  //   xhr.open("GET", url);
+  //   xhr.responseType = "blob";
+  //   xhr.send();
+  // }
 
   const tShirtCanvas = () =>
     new fabric.Canvas("tshirt-canvas", {
@@ -70,42 +65,53 @@ export default function ProductPage() {
       width: 200,
     });
 
-  const node = refTshirt.current;
+  // const node = refTshirt.current;
 
   const addToCart = () => {
-    domtoimage
-      .toPng(node)
-      .then(function (dataUrl) {
-        console.log(dataUrl);
-        let img = new Image();
-        img.crossOrigin = "anonymous";
-        img.src = dataUrl;
-        setCreatedImage(dataUrl);
-      })
-      .catch(function (error) {
-        console.error("oops, something went wrong!", { error });
-      });
+    // domtoimage
+    //   .toPng(node)
+    //   .then(function (dataUrl) {
+    //     console.log(dataUrl);
+    //     let img = new Image();
+    //     img.crossOrigin = "Anonymous";
+    //     img.src = dataUrl;
+    //     setCreatedImage(dataUrl);
+    //   })
+    //   .catch(function (error) {
+    //     console.error("oops, something went wrong!", { error });
+    //   });
+    console.log("Add to Cart");
   };
 
   const changeColor = (color) => {
     setTshirtColor(color);
   };
 
-  // if (isLoading) {
-  //   return (
-  //     <>
-  //       <h1>Now Loading</h1>
-  //     </>
-  //   );
-  // }
+  const customPosition = () => {
+    setAddArt(true);
+    fabric.Image.fromURL(artById.image_url, function (myImg) {
+      myImg.scaleToHeight(200);
+      myImg.scaleToWidth(200);
+      canvas.centerObject(myImg);
+      canvas.add(myImg);
+      canvas.renderAll();
+    });
+  };
 
-  // if (error) {
-  //   return (
-  //     <>
-  //       <h1>Error</h1>
-  //     </>
-  //   );
-  // }
+  const selectItemSetter = (e) => {
+    setTshirtColor("#fff");
+    setSelectedSize("");
+    setSelectedQuantity("");
+    setSelectedItem(e.target.value);
+  };
+
+  const selectSize = (e) => {
+    setSelectedSize(e.target.value);
+  };
+
+  const selectQuantity = (e) => {
+    setSelectedQuantity(e.target.value);
+  };
 
   return (
     <>
@@ -113,23 +119,52 @@ export default function ProductPage() {
         <div className="container pt-5">
           <div className="row">
             <div className="col-lg-6 justify-content-center d-flex py-3 border">
-              <div
-                ref={refTshirt}
-                id="tshirt-div"
-                style={{ backgroundColor: tShirtColor }}
-              >
-                <img id="tshirt-backgroundpicture" src={tShirt} alt="T-shirt" />
-                <div id="drawingArea" className="drawing-area">
-                  <div className="canvas-container">
-                    <canvas id="tshirt-canvas"></canvas>
+              {selectedItem === "artboard" ? (
+                <div
+                  // ref={refTshirt}
+                  id="artboard-div"
+                  style={{ backgroundColor: tShirtColor }}
+                  className="text-center pt-5"
+                >
+                  <img
+                    id="tshirt-backgroundpicture"
+                    src={artById?.image_url}
+                    alt="Art"
+                    className="image-art"
+                  />
+                  <div
+                    id="drawingArea"
+                    className="drawing-area"
+                    style={{ opacity: 0 }}
+                  >
+                    <div className="canvas-container">
+                      <canvas id="tshirt-canvas"></canvas>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <div
+                  // ref={refTshirt}
+                  id="tshirt-div"
+                  style={{ backgroundColor: tShirtColor }}
+                >
+                  <img
+                    id="tshirt-backgroundpicture"
+                    src={tShirt}
+                    alt="T-shirt"
+                  />
+                  <div id="drawingArea" className="drawing-area">
+                    <div className="canvas-container">
+                      <canvas id="tshirt-canvas"></canvas>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
             <div className="col-lg-6">
               <div className="col-lg-12">
-                <h2>Splash Art</h2>
-                <h3 className="pb-3">Artist: Daniel W.</h3>
+                <h2>{artById?.title}</h2>
+                <h3 className="pb-3">Artist: {artById?.user?.username}</h3>
                 <p>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
                   et diam eu turpis congue posuere. Integer lacinia lectus nibh,
@@ -146,68 +181,113 @@ export default function ProductPage() {
               <div className="col-lg-12 py-3">
                 <div className="row">
                   <div className="col-lg-3">
-                    <select className="form-control">
-                      <option disabled>Size</option>
-                      <option>XS</option>
-                      <option>S</option>
-                      <option>M</option>
-                      <option>L</option>
-                      <option>XL</option>
-                      <option>XXL</option>
+                    <select
+                      onChange={selectItemSetter}
+                      className="form-control"
+                      defaultValue={selectedItem}
+                    >
+                      <option disabled>Item</option>
+                      <option value="artboard">Art Board</option>
+                      <option value="t-shirt">T-shirt</option>
                     </select>
                   </div>
+                  {selectedItem === "t-shirt" ? (
+                    <div className="col-lg-3">
+                      <select
+                        onChange={selectSize}
+                        className="form-control"
+                        defaultValue={selectedSize}
+                      >
+                        <option disabled>Size</option>
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                      </select>
+                    </div>
+                  ) : (
+                    ""
+                  )}
                   <div className="col-lg-3">
                     <input
+                      onChange={selectQuantity}
                       className="form-control"
                       type="number"
                       placeholder="Quantity"
+                      defaultValue={selectedQuantity}
                     />
                   </div>
                 </div>
               </div>
-              <div className="col-lg-12 pt-3">
-                <h5>Choose Color</h5>
-                <div className="col-lg-12">
-                  <div className="row">
-                    <div className="pr-3">
-                      <span
-                        onClick={(e) => changeColor("#fff")}
-                        className="dot dot-white"
-                      ></span>
-                    </div>
-                    <div className="pr-3">
-                      <span
-                        onClick={(e) => changeColor("#000")}
-                        className="dot dot-black"
-                      ></span>
-                    </div>
-                    <div className="pr-3">
-                      <span
-                        onClick={(e) => changeColor("#f00")}
-                        className="dot dot-red"
-                      ></span>
-                    </div>
-                    <div className="pr-3">
-                      <span
-                        onClick={(e) => changeColor("#008000")}
-                        className="dot dot-green"
-                      ></span>
-                    </div>
-                    <div className="pr-3">
-                      <span
-                        onClick={(e) => changeColor("#ff0")}
-                        className="dot dot-yellow"
-                      ></span>
-                    </div>
-                    <div className="pr-3">
-                      <span
-                        onClick={(e) => changeColor("#0000ff")}
-                        className="dot dot-blue"
-                      ></span>
+              <div className="col-lg-6">
+                {selectedItem === "artboard" ? (
+                  <button
+                    className="btn btn-primary"
+                    onClick={customPosition}
+                    style={{ opacity: 0 }}
+                  >
+                    Add Art
+                  </button>
+                ) : (
+                  <button
+                    className="btn btn-primary"
+                    onClick={customPosition}
+                    style={addArt ? { display: "none" } : { opacity: 1 }}
+                  >
+                    Add Art
+                  </button>
+                )}
+              </div>
+              {selectedItem === "t-shirt" ? (
+                <div className="col-lg-12 pt-3">
+                  <h5>Choose Color</h5>
+                  <div className="col-lg-12">
+                    <div className="row">
+                      <div className="pr-3">
+                        <span
+                          onClick={(e) => changeColor("#fff")}
+                          className="dot dot-white"
+                        ></span>
+                      </div>
+                      <div className="pr-3">
+                        <span
+                          onClick={(e) => changeColor("#000")}
+                          className="dot dot-black"
+                        ></span>
+                      </div>
+                      <div className="pr-3">
+                        <span
+                          onClick={(e) => changeColor("#f00")}
+                          className="dot dot-red"
+                        ></span>
+                      </div>
+                      <div className="pr-3">
+                        <span
+                          onClick={(e) => changeColor("#008000")}
+                          className="dot dot-green"
+                        ></span>
+                      </div>
+                      <div className="pr-3">
+                        <span
+                          onClick={(e) => changeColor("#ff0")}
+                          className="dot dot-yellow"
+                        ></span>
+                      </div>
+                      <div className="pr-3">
+                        <span
+                          onClick={(e) => changeColor("#0000ff")}
+                          className="dot dot-blue"
+                        ></span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                ""
+              )}
+
               <div className="col-lg-12 pt-3">
                 <h5>Price</h5>
                 <h6>Rp 150.000,-</h6>
@@ -223,12 +303,12 @@ export default function ProductPage() {
               </div>
             </div>
             <div className="col-lg-6 pt-3">
-              <h5>Another art you might like</h5>
+              {/* <h5>Another art you might like</h5>
               <div className="row">
                 <AnotherArtCard />
                 <AnotherArtCard />
                 <AnotherArtCard />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

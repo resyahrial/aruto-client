@@ -291,6 +291,19 @@ input::-webkit-input-placeholder {
   user-select: none;
 }
 
+#artboard-div {
+  width: 452px;
+  height: 548px;
+  position: relative;
+  background-color: #fff;
+}
+
+.image-art {
+  width: 28rem;
+  display: block;
+  margin-top: 17.5%;
+}
+
 #tshirt-div {
   width: 452px;
   height: 548px;
