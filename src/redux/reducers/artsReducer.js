@@ -1,6 +1,10 @@
 const initialState = {
+<<<<<<< HEAD
   data: [],
   dataById: {},
+=======
+  arts: [],
+>>>>>>> development
   isLoading: false,
   error: null,
 };
@@ -10,7 +14,11 @@ const initialState = {
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case "arts/fetch":
-      return { ...state, ...payload };
+      return { ...state, arts: payload };
+    case "loading/setLoading":
+      return { ...state, isLoading: payload };
+    case "error/setError":
+      return { ...state, error: payload };
 
     case "arts/loading":
       return { ...state, isLoading: payload };

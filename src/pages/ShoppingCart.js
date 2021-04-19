@@ -1,8 +1,43 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import { CartItemCard } from "../components";
+import { checkout, paid } from "../redux/actions/transactions";
 
 export default function ShoppingCart() {
+  const { data, isLoading } = useSelector((state) => state.transactions);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const payHandler = () => {
+    window.snap.pay(data.transactionToken, {
+      onSuccess: function (result) {
+        dispatch(paid(data.transactionId));
+        if (!isLoading) history.push("/success");
+      },
+      onPending: function (result) {
+        console.log("Payment pending", result);
+      },
+      onError: function () {
+        console.log("Payment error");
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (data.transactionToken) {
+      const snapUrl = "https://app.sandbox.midtrans.com/snap/snap.js";
+      const clientKey = data.clientKey;
+
+      const scriptTag = document.createElement("script");
+      scriptTag.src = snapUrl;
+      scriptTag.setAttribute("data-client-key", clientKey);
+
+      document.body.appendChild(scriptTag);
+    }
+  }, [data]);
+
   return (
     <>
       <section id="shopping-cart">
@@ -89,12 +124,24 @@ export default function ShoppingCart() {
                 </div>
               </div>
               <div className="d-flex align-items-baseline">
-                <button
-                  type="button"
-                  className="btn btn-primary btn-add btn-pay"
-                >
-                  Pay
-                </button>
+                {!data.transactionToken && (
+                  <button
+                    type="button"
+                    className="btn btn-secondary btn-add btn-pay"
+                    onClick={() => dispatch(checkout())}
+                  >
+                    Checkout
+                  </button>
+                )}
+                {data.transactionToken && (
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-add btn-pay"
+                    onClick={payHandler}
+                  >
+                    Pay
+                  </button>
+                )}
               </div>
             </div>
           </div>
