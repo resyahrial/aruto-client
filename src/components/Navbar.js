@@ -1,16 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useHistory } from 'react-router-dom'
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { fetchUserById } from "../redux/actions/users";
+
 const showNavbarPath = ["/", "/profile", "/cart"];
 
 export default function Navbar() {
-  const history=useHistory()
+  const history = useHistory();
   const location = useLocation();
-  const Logout=(e)=>{
-    // e.preventDefault();
-    localStorage.removeItem('access_token')
-    history.push('/')
-  }
+  const dispatch = useDispatch();
+  const userDataById = useSelector((state) => state.users.userDataById);
+
+  useEffect(() => {
+    if (localStorage?.access_token) {
+      dispatch(fetchUserById(localStorage.access_token));
+    }
+  }, [dispatch]);
+
+  const Logout = (e) => {
+    localStorage.removeItem("access_token");
+    history.push("/");
+  };
+
   if (
     !showNavbarPath.includes(location.pathname) &&
     !location.pathname.includes("/product")
@@ -46,9 +59,9 @@ export default function Navbar() {
             />
           </div>
         </form>
-      { !localStorage.access_token ?         <ul
+        <ul
           className="navbar-nav align-items-center justify-content-between"
-          style={{ width: "30%" }}
+          style={{ width: `${localStorage.access_token ? "20%" : "30%"}` }}
         >
           <li className="nav-item">
             <Link className="nav-link" to="/cart">
@@ -60,48 +73,52 @@ export default function Navbar() {
               />
             </Link>
           </li>
-          <li className="nav-item">
-            <Link
-              className="nav-link btn btn-outline-primary text-primary btn-sm"
-              to="/register"
-              style={{ width: 100 }}
-            >
-              Sign Up
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              className="nav-link btn btn-primary btn-sm text-white"
-              to="/login"
-              style={{ width: 100 }}
-            >
-              Sign In
-            </Link>
-          </li>
-        </ul> :         <ul
-          className="navbar-nav align-items-center ml-auto"
-          style={{ width: "30%" }}
-        >
-          <li className="nav-item">
-            <Link className="nav-link pr-5" to="/cart">
-              <img
-                src="/icons/cart.svg"
-                alt="cart_icon"
-                width={32}
-                height={32}
-              />
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              className="nav-link btn btn-primary btn-sm text-white"
-              style={{ width: 100 }}
-              onClick={()=>Logout()}
-            >
-             Logout
-            </Link>
-          </li>
-        </ul>}
+          {!localStorage.access_token && (
+            <>
+              <li className="nav-item">
+                <Link
+                  className="nav-link btn btn-outline-primary text-primary btn-sm"
+                  to="/register"
+                  style={{ width: 100 }}
+                >
+                  Sign Up
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link btn btn-primary btn-sm text-white"
+                  to="/login"
+                  style={{ width: 100 }}
+                >
+                  Sign In
+                </Link>
+              </li>
+            </>
+          )}
+          {localStorage.access_token && (
+            <>
+              <li className="nav-item mr-2">
+                <Link to="/profile">
+                  <img
+                    src={`https://ui-avatars.com/api/?name=${userDataById?.data?.full_name}`}
+                    alt="user-pic"
+                    className="user-pic"
+                    style={{ width: 40, height: 40 }}
+                  />
+                </Link>
+              </li>
+              <li className="nav-item">
+                <button
+                  className="nav-link btn btn-primary btn-sm text-white"
+                  style={{ width: 100 }}
+                  onClick={() => Logout()}
+                >
+                  Logout
+                </button>
+              </li>
+            </>
+          )}
+        </ul>
       </div>
     </nav>
   );
