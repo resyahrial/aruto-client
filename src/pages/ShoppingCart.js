@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
@@ -7,8 +7,16 @@ import { checkout, paid } from "../redux/actions/transactions";
 
 export default function ShoppingCart() {
   const { data, isLoading } = useSelector((state) => state.transactions);
+  const [address, setAddress] = useState("");
+  const carts = useSelector((state) => state.carts.data);
   const dispatch = useDispatch();
   const history = useHistory();
+  const shippingFee = carts?.length === 0 ? 0 : 50000;
+
+  // console.log(carts);
+  const setterAddress = (e) => {
+    setAddress(e.target.value);
+  };
 
   const payHandler = () => {
     window.snap.pay(data.transactionToken, {
@@ -38,6 +46,14 @@ export default function ShoppingCart() {
     }
   }, [data]);
 
+  const totalPrice = () => {
+    let sum = 0;
+    carts.forEach((cart) => {
+      sum += cart.gross_amount;
+    });
+    return sum;
+  };
+
   return (
     <>
       <section id="shopping-cart">
@@ -61,9 +77,15 @@ export default function ShoppingCart() {
                     </div>
                   </div>
                 </div>
-                <CartItemCard />
-                <CartItemCard />
-                <CartItemCard />
+                {carts?.length === 0 ? (
+                  <div>
+                    <h3 className="text-center py-5">There's No Item to Buy</h3>
+                  </div>
+                ) : (
+                  carts?.map((cart, i) => {
+                    return <CartItemCard key={i} cart={cart} />;
+                  })
+                )}
               </div>
             </div>
             <div className="col-lg-4">
@@ -75,9 +97,11 @@ export default function ShoppingCart() {
                     </div>
                     <div className="col-8 pr-4">
                       <input
+                        onChange={setterAddress}
                         type="text"
                         className="form-control"
                         placeholder="Input Your Address Here"
+                        value={address}
                       />
                     </div>
                   </div>
@@ -88,7 +112,10 @@ export default function ShoppingCart() {
                       <p>ID Transaction</p>
                     </div>
                     <div className="col-6 text-right">
-                      <p>2021-04-17-4458</p>
+                      <p>
+                        {new Date().getFullYear()}-{new Date().getMonth()} -
+                        {new Date().getDate()} - {new Date().getMilliseconds()}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -98,7 +125,12 @@ export default function ShoppingCart() {
                       <p>Subtotal</p>
                     </div>
                     <div className="col-6 text-right">
-                      <p>Rp 150.000</p>
+                      <p>
+                        {new Intl.NumberFormat("id-Rp", {
+                          style: "currency",
+                          currency: "IDR",
+                        }).format(totalPrice())}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -108,7 +140,17 @@ export default function ShoppingCart() {
                       <p>Shipment</p>
                     </div>
                     <div className="col-6 text-right">
-                      <p>Rp 50.000</p>
+                      <p>
+                        {carts?.length === 0
+                          ? new Intl.NumberFormat("id-Rp", {
+                              style: "currency",
+                              currency: "IDR",
+                            }).format(0)
+                          : new Intl.NumberFormat("id-Rp", {
+                              style: "currency",
+                              currency: "IDR",
+                            }).format(shippingFee)}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -118,7 +160,12 @@ export default function ShoppingCart() {
                       <p>Total Price</p>
                     </div>
                     <div className="col-6 text-right">
-                      <p>Rp 200.000</p>
+                      <p>
+                        {new Intl.NumberFormat("id-Rp", {
+                          style: "currency",
+                          currency: "IDR",
+                        }).format(totalPrice() + shippingFee)}
+                      </p>
                     </div>
                   </div>
                 </div>

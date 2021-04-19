@@ -34,8 +34,13 @@ export default function UserProfile() {
               <div className="col-lg-12 border user-info-height">
                 <div className="row pt-3">
                   <div className="col-lg-6 justify-content-center d-flex">
-                    <img
+                    {/* <img
                       src={`https://ui-avatars.com/api/?name=${userDataById?.data?.full_name}`}
+                      alt="user-pic"
+                      className="user-pic"
+                    /> */}
+                    <img
+                      src={`https://i.pravatar.cc/150?u=${userDataById?.data?.full_name}`}
                       alt="user-pic"
                       className="user-pic"
                     />
@@ -124,9 +129,17 @@ export default function UserProfile() {
               <div className="col-lg">
                 <div className="row">
                   {/* {JSON.stringify(userDataById?.data?.arts)} */}
-                  {userDataById?.data?.arts?.map((art) => {
-                    return <MyArtCard key={art._id} art={art} />;
-                  })}
+                  {userDataById?.data?.arts.length === 0 ? (
+                    <>
+                      <div className="col-lg text-center pt-5">
+                        <h3>There's No Art to Show</h3>
+                      </div>
+                    </>
+                  ) : (
+                    userDataById?.data?.arts?.map((art) => {
+                      return <MyArtCard key={art._id} art={art} />;
+                    })
+                  )}
                 </div>
               </div>
             </div>
