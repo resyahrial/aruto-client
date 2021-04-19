@@ -1,25 +1,63 @@
 import axios from "../axios";
 
-// export const fetchArts = (payload) => (dispatch) => {
-// code
-// };
 function setUsers(payload) {
-  return {type: "users/setUsers", payload}
+  return { type: "users/setUsers", payload };
 }
+
 function setLoading(payload) {
-  return {type: "loading/setLoading", payload}
+  return { type: "users/isLoading", payload };
 }
+
 function setError(payload) {
-  return {type: "error/setError", payload}
+  return { type: "users/error", payload };
 }
+
 export function fetchUser() {
   return (dispatch) => {
-    dispatch(setLoading(true))
-    axios.get('/users')
-      .then(({data}) => {
-        dispatch(setUsers(data))
+    dispatch(setLoading(true));
+    axios
+      .get("/users")
+      .then(({ data }) => {
+        dispatch(setUsers(data));
       })
-      .catch(err => dispatch(setError(err)))
-      .then(() => dispatch(setLoading(false)))
-  }
+      .catch((err) => dispatch(setError(err)))
+      .then(() => dispatch(setLoading(false)));
+  };
 }
+
+export const login = (payload) => (dispatch) => {
+  const data = {
+    email: payload.email,
+    password: payload.password,
+  };
+  dispatch({ type: "users/isLoading" });
+  axios
+    .post(`${process.env.REACT_APP_URL}login`, data)
+    .then((res) => {
+      console.log(res, "res");
+      localStorage.setItem("access_token", res.data.access_token);
+    })
+    .catch((err) => dispatch({ type: "users/error", payload: err }))
+    .finally(() => {
+      dispatch({ type: "users/isLoading" });
+    });
+};
+
+export const register = (payload) => (dispatch) => {
+  const data = {
+    full_name: payload.fullname,
+    username: payload.username,
+    email: payload.email,
+    password: payload.password,
+  };
+  console.log(data, "register");
+  dispatch({ type: "users/isLoading" });
+  axios
+    .post(`${process.env.REACT_APP_URL}register`, data)
+    .then((res) => {})
+    .catch((err) => dispatch({ type: "users/error" }, err))
+    .finally(() => {
+      // dispatch(login({email:payload.email,password:payload.password}))
+      dispatch({ type: "users/isLoading" });
+    });
+};
