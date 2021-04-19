@@ -65,9 +65,17 @@ export default function UserProfile() {
               </div>
               <div className="col-lg">
                 <div className="row">
-                  {userDataById?.data?.arts?.map((art) => {
-                    return <MyArtCard key={art._id} art={art} />;
-                  })}
+                  {userDataById?.data?.arts.length === 0 ? (
+                    <>
+                      <div className="col-lg text-center pt-5">
+                        <h3>There's No Art to Show</h3>
+                      </div>
+                    </>
+                  ) : (
+                    userDataById?.data?.arts?.map((art) => {
+                      return <MyArtCard key={art._id} art={art} />;
+                    })
+                  )}
                 </div>
               </div>
             </div>

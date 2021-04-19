@@ -12,6 +12,12 @@ const reducer = (state = initialState, { type, payload }) => {
       return { ...state, isLoading: payload };
     case "carts/error":
       return { ...state, error: payload };
+    case "carts/add":
+      return { ...state, data: [...state.data, payload] };
+    case "carts/deleteItem":
+      // console.log(payload);
+      return { ...state, data: payload };
+
     default:
       return state;
   }

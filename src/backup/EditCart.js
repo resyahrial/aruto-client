@@ -2,19 +2,15 @@ import React, { useEffect, useState } from "react";
 import { fabric } from "fabric";
 
 import tShirt from "../assets/images/background_tshirt.png";
-// import AnotherArtCard from "../components/AnotherArtCard";
-// import domtoimage from "dom-to-image";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchArtsById } from "../redux/actions/arts";
-import { setToCart } from "../redux/actions/carts";
+import { editCart } from "../redux/actions/carts";
 
 export default function ProductPage() {
   const params = useParams();
   const dispatch = useDispatch();
   const artById = useSelector((state) => state.arts.dataById);
-  // const isLoading = useSelector((state) => state.arts.isLoading);
-  // const error = useSelector((state) => state.arts.error);
 
   const [canvas, setCanvas] = useState("");
   const [tShirtColor, setTshirtColor] = useState("white");
@@ -23,42 +19,10 @@ export default function ProductPage() {
   const [selectedSize, setSelectedSize] = useState("XS");
   const [selectedQuantity, setSelectedQuantity] = useState(1);
 
-  // const [refTshirt] = useState(React.createRef());
-  // const [createdImage, setCreatedImage] = useState("");
-  // const [logo, setLogo] = useState(false);
-  // const [img, setImg] = useState("Insert Your Image URL for Custom development");
-  // const [parsedImg, setParsedImg] = useState("");
-
   useEffect(() => {
     dispatch(fetchArtsById(params.id));
     setCanvas(tShirtCanvas());
-
-    // if (!canvas._object) {
-    //   setLogo(true);
-    // }
   }, [dispatch, params.id]);
-
-  // console.log(artById);
-
-  // if (artById?.image_url) {
-  //   toDataURL(parsedImg, function (dataUrl) {
-  //     setParsedImg(dataUrl);
-  //   });
-  // }
-
-  // function toDataURL(url, callback) {
-  //   let xhr = new XMLHttpRequest();
-  //   xhr.onload = function () {
-  //     let reader = new FileReader();
-  //     reader.onloadend = function () {
-  //       callback(reader.result);
-  //     };
-  //     reader.readAsDataURL(xhr.response);
-  //   };
-  //   xhr.open("GET", url);
-  //   xhr.responseType = "blob";
-  //   xhr.send();
-  // }
 
   const tShirtCanvas = () =>
     new fabric.Canvas("tshirt-canvas", {
@@ -66,21 +30,7 @@ export default function ProductPage() {
       width: 200,
     });
 
-  // const node = refTshirt.current;
-
-  const addToCart = () => {
-    // domtoimage
-    //   .toPng(node)
-    //   .then(function (dataUrl) {
-    //     console.log(dataUrl);
-    //     let img = new Image();
-    //     img.crossOrigin = "Anonymous";
-    //     img.src = dataUrl;
-    //     setCreatedImage(dataUrl);
-    //   })
-    //   .catch(function (error) {
-    //     console.error("oops, something went wrong!", { error });
-    //   });
+  const editToCart = () => {
     let itemSelected;
 
     if (selectedItem === "Artboard") {
@@ -103,9 +53,7 @@ export default function ProductPage() {
       if (!selectedQuantity) {
         console.log("Quantity Can't be Empty");
       } else {
-        // console.log("dispatch");
-        // console.log(itemSelected);
-        dispatch(setToCart(itemSelected));
+        dispatch(editCart(itemSelected));
       }
     } else {
       itemSelected = {
@@ -127,12 +75,9 @@ export default function ProductPage() {
       if (!selectedQuantity || !selectedSize) {
         console.log("Quantity or Size Can't be Empty");
       } else {
-        // console.log(itemSelected);
-        dispatch(setToCart(itemSelected));
+        dispatch(editCart(itemSelected));
       }
     }
-
-    // console.log("Add to Cart");
   };
 
   const changeColor = (color) => {
@@ -173,7 +118,6 @@ export default function ProductPage() {
             <div className="col-lg-6 justify-content-center d-flex py-3 border">
               {selectedItem === "Artboard" ? (
                 <div
-                  // ref={refTshirt}
                   id="artboard-div"
                   style={{ backgroundColor: tShirtColor }}
                   className="text-center pt-5"
@@ -195,11 +139,7 @@ export default function ProductPage() {
                   </div>
                 </div>
               ) : (
-                <div
-                  // ref={refTshirt}
-                  id="tshirt-div"
-                  style={{ backgroundColor: tShirtColor }}
-                >
+                <div id="tshirt-div" style={{ backgroundColor: tShirtColor }}>
                   <img
                     id="tshirt-backgroundpicture"
                     src={tShirt}
@@ -364,22 +304,15 @@ export default function ProductPage() {
               </div>
               <div className="col-lg-12 py-3">
                 <button
-                  onClick={addToCart}
+                  onClick={editToCart}
                   type="button"
                   className="btn btn-primary"
                 >
-                  Add To Cart
+                  Edit Cart
                 </button>
               </div>
             </div>
-            <div className="col-lg-6 pt-3">
-              {/* <h5>Another art you might like</h5>
-              <div className="row">
-                <AnotherArtCard />
-                <AnotherArtCard />
-                <AnotherArtCard />
-              </div> */}
-            </div>
+            <div className="col-lg-6 pt-3"></div>
           </div>
         </div>
       </section>
