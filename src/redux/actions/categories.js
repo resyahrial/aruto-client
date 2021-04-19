@@ -17,7 +17,6 @@ export function fetchCategories() {
     setLoading(true)
     axios.get('/categories')
       .then(({data}) => {
-        console.log(data)
         dispatch(setCategories(data))
       })
       .catch((err) => {

@@ -20,6 +20,6 @@ export function fetchUser() {
         dispatch(setUsers(data))
       })
       .catch(err => dispatch(setError(err)))
-      .then(() => setLoading(false))
+      .then(() => dispatch(setLoading(false)))
   }
 }

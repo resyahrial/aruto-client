@@ -9,6 +9,10 @@ function setLoading(payload) {
 function setError(payload) {
   return {type: "error/setError", payload}
 }
+export function setCategory(payload) {
+  console.log("action set category")
+  return {type: "category/setCategory", payload}
+}
 export function fetchArt() {
   return (dispatch) => {
     dispatch(setLoading(true))
@@ -20,7 +24,7 @@ export function fetchArt() {
         dispatch(setError(err))
       })
       .then(()=> {
-        dispatch(setLoading(true))
+        dispatch(setLoading(false))
       })
   }
 }

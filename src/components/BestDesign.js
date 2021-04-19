@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
 import "../assets/style/style.css";
-import { useSelector } from "react-redux";
-export default function BestDesign() {
-  const { arts, isLoading, error } = useSelector(state => state.arts)
+import { useHistory } from "react-router-dom";
+export default function BestDesign({arts}) {
+  const history = useHistory()
   const [bestArts, setBestArts] = useState([])
   useEffect(() => {
     if(arts) {
       const dataArts = [...arts]
-      console.log(dataArts)
       dataArts.sort(function(a,b) {
-        return b.likes.length - a.likes.length
+        return b.likes - a.likes
       })
       setBestArts(dataArts)
     }
   }, [arts])
-  if(isLoading) <h1>Loading</h1>
-  if(error) <h1>{error}</h1>
+  function detailArt(id) {
+    history.push('/product/' + id)
+  }
   return (
     <div className="mt-content">
       <h3 className="font-weight-bold">
@@ -29,6 +29,7 @@ export default function BestDesign() {
               index === 0 ?
                 <div key={art._id} className="col-6">
                 <img
+                  onClick={() => detailArt(art._id)}
                   src={art.image_url}
                   className="w-100 h-80"
                   alt=""
@@ -45,6 +46,7 @@ export default function BestDesign() {
                   index > 0 && index < 5 ?
                   <div key={art._id} className="col-6">
                     <img
+                      onClick={() => detailArt(art._id)}
                       src={art.image_url}
                       className="w-100 height-35"
                       alt=""

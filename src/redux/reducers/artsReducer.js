@@ -10,6 +10,10 @@ const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case "arts/fetch":
       return { ...state, arts: payload };
+    case "loading/setLoading":
+      return { ...state, isLoading: payload };
+    case "error/setError":
+      return { ...state, error: payload };
 
     default:
       return state;
