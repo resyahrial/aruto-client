@@ -1,11 +1,16 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-
+import { useHistory } from 'react-router-dom'
 const showNavbarPath = ["/", "/profile", "/cart"];
 
 export default function Navbar() {
+  const history=useHistory()
   const location = useLocation();
-
+  const Logout=(e)=>{
+    // e.preventDefault();
+    localStorage.removeItem('access_token')
+    history.push('/')
+  }
   if (
     !showNavbarPath.includes(location.pathname) &&
     !location.pathname.includes("/product")
@@ -41,7 +46,7 @@ export default function Navbar() {
             />
           </div>
         </form>
-        <ul
+      { !localStorage.access_token ?         <ul
           className="navbar-nav align-items-center justify-content-between"
           style={{ width: "30%" }}
         >
@@ -73,7 +78,30 @@ export default function Navbar() {
               Sign In
             </Link>
           </li>
-        </ul>
+        </ul> :         <ul
+          className="navbar-nav align-items-center ml-auto"
+          style={{ width: "30%" }}
+        >
+          <li className="nav-item">
+            <Link className="nav-link pr-5" to="/cart">
+              <img
+                src="/icons/cart.svg"
+                alt="cart_icon"
+                width={32}
+                height={32}
+              />
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link
+              className="nav-link btn btn-primary btn-sm text-white"
+              style={{ width: 100 }}
+              onClick={()=>Logout()}
+            >
+             Logout
+            </Link>
+          </li>
+        </ul>}
       </div>
     </nav>
   );
