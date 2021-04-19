@@ -10,7 +10,6 @@ import {
   ShoppingCart,
   UserProfile,
   ProductPage,
-  AddWork,
 } from "./pages";
 import { Navbar, Footer } from "./components";
 
@@ -21,9 +20,6 @@ function App() {
       <Switch>
         <Route path="/product/:id">
           <ProductPage />
-        </Route>
-        <Route path="/profile/add">
-          <AddWork />
         </Route>
         <Route path="/profile">
           <UserProfile />
