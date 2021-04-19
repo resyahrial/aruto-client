@@ -1,8 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserById } from "../redux/actions/users";
+// import { useParams } from "react-router-dom";
 
 import { MyArtCard } from "../components";
 
 export default function UserProfile() {
+  const dispatch = useDispatch();
+  const userDataById = useSelector((state) => state.users.userDataById);
+  // const params = useParams();
+  const id =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDdjNGZkZWU1NTkzYzUxN2U4OGVkMjYiLCJlbWFpbCI6Im5hdWZhbEBtYWlsLmNvbSIsImlhdCI6MTYxODgwMzY0MH0.H8G5v8so8-b79pBs-9rk7V7dWXSg5EZbmrvXAjlenCE"; // Ceritanya dari localstoraghe Nanti
+  // console.log(params);
+
+  useEffect(() => {
+    dispatch(fetchUserById(id));
+  }, [dispatch]);
+
+  // console.log(userDataById);
+
   return (
     <>
       <section id="user-profile">
@@ -13,7 +29,7 @@ export default function UserProfile() {
                 <div className="row pt-3">
                   <div className="col-lg-6 justify-content-center d-flex">
                     <img
-                      src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2d1c346d-2c8d-4505-ad98-4efbedf28cdf/degzwpn-15bdd83d-c812-4a85-ac23-3ab788c7a713.jpg/v1/fill/w_1024,h_1319,q_75,strp/hiroyuki_sanada_by_ninjason57_degzwpn-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvMmQxYzM0NmQtMmM4ZC00NTA1LWFkOTgtNGVmYmVkZjI4Y2RmXC9kZWd6d3BuLTE1YmRkODNkLWM4MTItNGE4NS1hYzIzLTNhYjc4OGM3YTcxMy5qcGciLCJoZWlnaHQiOiI8PTEzMTkiLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS53YXRlcm1hcmsiXSwid21rIjp7InBhdGgiOiJcL3dtXC8yZDFjMzQ2ZC0yYzhkLTQ1MDUtYWQ5OC00ZWZiZWRmMjhjZGZcL25pbmphc29uNTctNC5wbmciLCJvcGFjaXR5Ijo5NSwicHJvcG9ydGlvbnMiOjAuNDUsImdyYXZpdHkiOiJjZW50ZXIifX0.kwl48dDHkimWhbLZznTz4H8p3C50tvIRSVgxHgeb4gY"
+                      src={`https://ui-avatars.com/api/?name=${userDataById?.data?.full_name}`}
                       alt="user-pic"
                       className="user-pic"
                     />
@@ -21,12 +37,12 @@ export default function UserProfile() {
                   <div className="col-lg-6 flex-column pt-4">
                     <div>
                       <h6 className="username d-flex align-items-center">
-                        Username
+                        {userDataById?.data?.username}
                       </h6>
                     </div>
                     <div>
                       <p className="job-text d-flex align-items-center">
-                        Photography Artist
+                        Artist
                       </p>
                     </div>
                   </div>
@@ -37,7 +53,9 @@ export default function UserProfile() {
                       <p>Name</p>
                     </div>
                     <div className="col-6">
-                      <p className="text-right info-text">Yooa</p>
+                      <p className="text-right info-text">
+                        {userDataById?.data?.full_name}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -47,11 +65,13 @@ export default function UserProfile() {
                       <p>Email</p>
                     </div>
                     <div className="col-6">
-                      <p className="text-right info-text">Yooa@mail</p>
+                      <p className="text-right info-text">
+                        {userDataById?.data?.email}
+                      </p>
                     </div>
                   </div>
                 </div>
-                <div className="col pt-3">
+                {/* <div className="col pt-3">
                   <div className="row">
                     <div className="col-6">
                       <p>Location</p>
@@ -60,7 +80,7 @@ export default function UserProfile() {
                       <p className="text-right info-text">Jakarta, Indonesia</p>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
               <div className="d-flex align-items-baseline">
                 <button type="button" className="btn btn-warning btn-add">
@@ -93,15 +113,10 @@ export default function UserProfile() {
               </div>
               <div className="col-lg">
                 <div className="row">
-                  <MyArtCard />
-                  <MyArtCard />
-                  <MyArtCard />
-                  <MyArtCard />
-                  <MyArtCard />
-                  <MyArtCard />
-                  <MyArtCard />
-                  <MyArtCard />
-                  <MyArtCard />
+                  {/* {JSON.stringify(userDataById?.data?.arts)} */}
+                  {userDataById?.data?.arts?.map((art) => {
+                    return <MyArtCard key={art._id} art={art} />;
+                  })}
                 </div>
               </div>
             </div>

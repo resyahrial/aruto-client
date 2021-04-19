@@ -1,5 +1,5 @@
 import axios from "../axios";
-const baseURL = "http://localhost:3000";
+// const baseURL = "http://localhost:4000";
 
 // export const fetchArts = (payload) => (dispatch) => {
 //   dispatch({ type: "arts/loading", payload: true });
@@ -16,7 +16,7 @@ export const fetchArtsById = (payload) => (dispatch) => {
   dispatch({ type: "arts/loading", payload: true });
   axios({
     method: "GET",
-    url: baseURL + "/arts/" + payload,
+    url: "/arts/" + payload,
   })
     .then((response) =>
       dispatch({ type: "arts/fetchById", payload: response.data })
