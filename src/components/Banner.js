@@ -14,7 +14,7 @@ export default function Banner() {
   };
 
   return (
-    <div className="mt-content">
+    <div className="mt-3">
       <Slider {...settings}>
         <div>
           <img

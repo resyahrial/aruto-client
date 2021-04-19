@@ -41,7 +41,7 @@ export default function ListDesign({ arts, category }) {
               <img
                 onClick={() => detailArt(art._id)}
                 src={art.image_url}
-                className="w-100"
+                className="w-100 item-cart-2"
                 alt=""
               />
               </div>
