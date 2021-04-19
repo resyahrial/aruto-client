@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import { Link } from "react-router-dom";
 import {useSelector,useDispatch} from 'react-redux'
 import "../assets/style/style.css";
@@ -14,18 +14,13 @@ export default function Login() {
   const { isLoading, error } = useSelector((state) => state.users);
   const onSubmit = (e) => {
     e.preventDefault();
-    if(email===""){
-      console.log('email kosong');
-    }
-    else if(password===""){
-      console.log("password kosong");
-    }
-    else{
+    if(email !=='' && password !==''){
       dispatch(login({email:email,password:password}))
-      if (!isLoading && !error) history.push('/')
     }
-   
   }
+  useEffect(()=>{
+    if(!isLoading && localStorage.access_token) history.push('/')
+  },[isLoading])
   return (
     <div className="container-fluid mx-0 px-0">
       <div className="row">
