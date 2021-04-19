@@ -8,3 +8,4 @@ export { default as ListDesign } from "./ListDesign";
 export { default as SideLeft } from "./SideLeft";
 export { default as CartItemCard } from "./CartItemCard";
 export { default as MyArtCard } from "./MyArtCard";
+export { default as AddArt } from "./AddArt";
