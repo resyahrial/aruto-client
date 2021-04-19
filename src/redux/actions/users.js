@@ -4,24 +4,30 @@ function setUsers(payload) {
   return { type: "users/setUsers", payload };
 }
 
-function setLoading(payload) {
-  return { type: "users/isLoading", payload };
-}
-
-function setError(payload) {
-  return { type: "users/error", payload };
-}
+export const fetchUserById = (payload) => (dispatch) => {
+  const headers = {
+    "Content-Type": "application/json",
+    access_token: payload,
+  };
+  dispatch({ type: "users/isLoading", payload: true });
+  axios("/user", { headers })
+    .then((response) =>
+      dispatch({ type: "users/fetchById", payload: response })
+    )
+    .catch((err) => dispatch({ type: "users/error", payload: err }))
+    .finally((_) => dispatch({ type: "users/isLoading", payload: false }));
+};
 
 export function fetchUser() {
   return (dispatch) => {
-    dispatch(setLoading(true));
+    dispatch({ type: "users/isLoading", payload: true });
     axios
       .get("/users")
       .then(({ data }) => {
         dispatch(setUsers(data));
       })
-      .catch((err) => dispatch(setError(err)))
-      .then(() => dispatch(setLoading(false)));
+      .catch((err) => dispatch({ type: "users/error", payload: err }))
+      .then(() => dispatch({ type: "users/isLoading", payload: false }));
   };
 }
 
@@ -30,16 +36,16 @@ export const login = (payload) => (dispatch) => {
     email: payload.email,
     password: payload.password,
   };
-  dispatch({ type: "users/isLoading" });
+  dispatch({ type: "users/isLoading", payload: true });
   axios
-    .post(`${process.env.REACT_APP_URL}login`, data)
+    .post(`/login`, data)
     .then((res) => {
       console.log(res, "res");
       localStorage.setItem("access_token", res.data.access_token);
     })
     .catch((err) => dispatch({ type: "users/error", payload: err }))
     .finally(() => {
-      dispatch({ type: "users/isLoading" });
+      dispatch({ type: "users/isLoading", payload: false });
     });
 };
 
@@ -50,14 +56,12 @@ export const register = (payload) => (dispatch) => {
     email: payload.email,
     password: payload.password,
   };
-  console.log(data, "register");
-  dispatch({ type: "users/isLoading" });
+  dispatch({ type: "users/isLoading", payload: true });
   axios
-    .post(`${process.env.REACT_APP_URL}register`, data)
+    .post(`/register`, data)
     .then((res) => {})
     .catch((err) => dispatch({ type: "users/error" }, err))
     .finally(() => {
-      // dispatch(login({email:payload.email,password:payload.password}))
-      dispatch({ type: "users/isLoading" });
+      dispatch({ type: "users/isLoading", payload: false });
     });
 };
