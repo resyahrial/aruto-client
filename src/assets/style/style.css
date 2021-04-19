@@ -320,3 +320,23 @@ input::-webkit-input-placeholder {
   user-select: none;
   cursor: default;
 }
+
+/*********************** ADD WORKS ***********************/
+
+.bg-title {
+  background-color: #1f327c;
+  border-radius: 10px;
+}
+
+.bg-title h1 {
+  color: white;
+}
+
+.border-radius {
+  border-radius: 10px;
+  padding: 0 0 40px;
+}
+
+.upload-btn-width {
+  width: 30%;
+}
