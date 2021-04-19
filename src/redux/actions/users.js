@@ -32,16 +32,12 @@ export function fetchUser() {
 }
 
 export const login = (payload) => (dispatch) => {
-  const data = {
-    email: payload.email,
-    password: payload.password,
-  };
+  console.log(payload);
   dispatch({ type: "users/isLoading", payload: true });
   axios
-    .post(`/login`, data)
-    .then((res) => {
-      console.log(res, "res");
-      localStorage.setItem("access_token", res.data.access_token);
+    .post(`/login`, payload)
+    .then(({ data }) => {
+      localStorage.setItem("access_token", data.access_token);
     })
     .catch((err) => dispatch({ type: "users/error", payload: err }))
     .finally(() => {

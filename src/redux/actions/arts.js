@@ -20,22 +20,14 @@ export function setCategory(payload) {
 export function fetchArt() {
   return (dispatch) => {
     dispatch({ type: "arts/loading", payload: true });
-    axios
-      .get("/arts")
-      .then(({ data }) => {
-        return { type: "arts/fetch", payload: data };
-      })
-      .catch((err) => {
-        dispatch({ type: "arts/error", payload: err });
-      })
-      .then(() => {
-        dispatch({ type: "arts/loading", payload: false });
-      });
+    axios("/arts")
+      .then(({ data }) => dispatch({ type: "arts/fetch", payload: data }))
+      .catch((err) => dispatch({ type: "arts/error", payload: err }))
+      .finally(() => dispatch({ type: "arts/loading", payload: false }));
   };
 }
 
 export const addArt = (payload) => (dispatch) => {
-  console.log(payload.get("title"));
   dispatch({ type: "arts/loading", payload: true });
   axios
     .post("/arts", payload, {

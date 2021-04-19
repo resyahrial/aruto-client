@@ -1,26 +1,42 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {useSelector,useDispatch} from 'react-redux'
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+
 import "../assets/style/style.css";
 import { SideLeft } from "../components";
-import {login} from '../redux/actions/users'
-import { useHistory } from 'react-router-dom'
+import { login } from "../redux/actions/users";
+
 export default function Login() {
-  const history=useHistory()
-  const dispatch=useDispatch()
-  const [email,setEmail]=useState("")
-  const [password,setPassword]=useState("")
-  
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  });
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   const { isLoading, error } = useSelector((state) => state.users);
+
+  const onChange = (ev) => {
+    const { name, value } = ev.target;
+    setData({
+      ...data,
+      [name]: value,
+    });
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
-    if(email !=='' && password !==''){
-      dispatch(login({email:email,password:password}))
+    if (data.email !== "" && data.password !== "") {
+      dispatch(login(data));
     }
-  }
-  useEffect(()=>{
-    if(!isLoading && localStorage.access_token) history.push('/')
-  },[isLoading])
+  };
+
+  useEffect(() => {
+    console.log(error);
+    if (!isLoading && localStorage.access_token) history.push("/");
+  }, [isLoading]);
+
   return (
     <div className="container-fluid mx-0 px-0">
       <div className="row">
@@ -34,25 +50,40 @@ export default function Login() {
               </h1>
             </div>
             <div className="mt-5 pt-5 col-12 col-md-12">
-              <form className="mt-0 w-100" onSubmit={(e)=>onSubmit(e)}>
+              <form className="mt-0 w-100" onSubmit={(e) => onSubmit(e)}>
                 <div className="input-div">
                   <div className="d-flex justify-content-center align-items-center">
-                    <img className="w-75 " src='/images/user.svg' alt="user" />
+                    <img className="w-75 " src="/images/user.svg" alt="user" />
                   </div>
                   <div>
-                    <input placeholder="Email" required onChange={(e)=>setEmail(e.target.value)} type="email" className="input" />
+                    <input
+                      placeholder="Email"
+                      type="email"
+                      className="input"
+                      required
+                      onChange={onChange}
+                      name="email"
+                      value={data.email}
+                    />
                   </div>
                 </div>
                 <div className="input-div">
                   <div className="d-flex justify-content-center height-icon align-items-center">
-                    <img className="w-75 " src="/images/icon-pass.svg" alt="password" />
+                    <img
+                      className="w-75 "
+                      src="/images/icon-pass.svg"
+                      alt="password"
+                    />
                   </div>
                   <div>
                     <input
                       placeholder="Password"
                       type="password"
                       className="input"
-                      required onChange={(e)=>setPassword(e.target.value)}
+                      required
+                      onChange={onChange}
+                      name="password"
+                      value={data.password}
                     />
                   </div>
                 </div>
@@ -64,9 +95,18 @@ export default function Login() {
                 </button>
                 <p className="mt-5">
                   Don't have an account?
-                  <Link to="/register" className="pr-2 text-primary font-weight-bold"> Sign up </Link>
+                  <Link
+                    to="/register"
+                    className="pr-2 text-primary font-weight-bold"
+                  >
+                    {" "}
+                    Sign up{" "}
+                  </Link>
                 </p>
-                <p className="mt-2">  or back to <Link to="/">Home ?</Link></p>
+                <p className="mt-2">
+                  {" "}
+                  or back to <Link to="/">Home ?</Link>
+                </p>
               </form>
             </div>
           </div>
