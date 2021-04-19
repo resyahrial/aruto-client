@@ -161,6 +161,15 @@ input::-webkit-input-placeholder {
 .height-35 {
   height: 35vh;
 }
+.item-cart-2 {
+  height: 24vh;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.slick-arrow {
+  display: none !important;
+}
 /* End Home */
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   .height-icon {
