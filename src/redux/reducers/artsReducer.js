@@ -1,10 +1,6 @@
 const initialState = {
-<<<<<<< HEAD
   data: [],
   dataById: {},
-=======
-  arts: [],
->>>>>>> development
   isLoading: false,
   error: null,
 };

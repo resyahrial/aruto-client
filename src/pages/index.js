@@ -6,3 +6,4 @@ export { default as Error } from "./Error";
 export { default as ShoppingCart } from "./ShoppingCart";
 export { default as UserProfile } from "./UserProfile";
 export { default as ProductPage } from "./ProductPage";
+export { default as AddWork } from "./AddWork";

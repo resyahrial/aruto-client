@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserById } from "../redux/actions/users";
+import { useHistory } from "react-router-dom";
 // import { useParams } from "react-router-dom";
 
 import { MyArtCard } from "../components";
 
 export default function UserProfile() {
+  let history = useHistory();
   const dispatch = useDispatch();
   const userDataById = useSelector((state) => state.users.userDataById);
   // const params = useParams();
@@ -17,6 +19,10 @@ export default function UserProfile() {
     dispatch(fetchUserById(id));
   }, [dispatch]);
 
+  const toAddArt = (e) => {
+    console.log(e);
+    history.push("/profile/add");
+  };
   // console.log(userDataById);
 
   return (
@@ -83,7 +89,11 @@ export default function UserProfile() {
                 </div> */}
               </div>
               <div className="d-flex align-items-baseline">
-                <button type="button" className="btn btn-warning btn-add">
+                <button
+                  onClick={toAddArt}
+                  type="button"
+                  className="btn btn-warning btn-add"
+                >
                   Add Art
                 </button>
               </div>
