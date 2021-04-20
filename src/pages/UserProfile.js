@@ -5,6 +5,7 @@ import { fetchUserById } from "../redux/actions/users";
 import { fetchTransactionHistory } from "../redux/actions/transactions";
 import { MyArtCard, AddArt, MyTransactionCard } from "../components";
 import { useHistory } from "react-router-dom";
+import { fetchArt } from "../redux/actions/arts";
 
 export default function UserProfile() {
   const dispatch = useDispatch();
@@ -17,11 +18,14 @@ export default function UserProfile() {
   const [myFavorites, setMyFavorites] = useState(false);
   const history = useHistory();
 
-  console.log(transactionHistory);
+  const likedArts = useSelector((state) => state.arts.data);
+  // console.log(likedArts);
+  // console.log(transactionHistory);
 
   useEffect(() => {
     dispatch(fetchTransactionHistory("Test"));
     dispatch(fetchUserById(localStorage.access_token));
+    dispatch(fetchArt());
   }, [dispatch]);
 
   const viewMyWorks = (e) => {
@@ -174,36 +178,16 @@ export default function UserProfile() {
                     ""
                   )}
                   {myFavorites ? (
-                    userDataById?.data?.arts.length === 0 ? (
+                    likedArts?.likes?.length === 0 ? (
                       <>
                         <div className="col-lg text-center pt-5">
                           <h3>There's No Favorites to Show</h3>
                         </div>
                       </>
                     ) : (
-                      <div className="col-lg-12">
-                        <table className="table table-striped">
-                          <thead>
-                            <tr>
-                              <th scope="col">#Transaction-ID</th>
-                              <th scope="col">Item</th>
-                              <th scope="col">Shipment Address</th>
-                              <th scope="col">Transaction Amount</th>
-                              <th scope="col">Payment Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {transactionHistory?.map((history) => {
-                              return (
-                                <MyTransactionCard
-                                  key={history._id}
-                                  history={history}
-                                />
-                              );
-                            })}
-                          </tbody>
-                        </table>
-                      </div>
+                      likedArts?.forEach((userLike) => {
+                        console.log(userLike.likes);
+                      })
                     )
                   ) : (
                     ""

@@ -4,17 +4,18 @@ import "../assets/style/style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addFav, addFavorite} from "../redux/actions/arts";
 export default function ListDesign({ arts, category }) {
+  const history = useHistory();
+  const { data, isLoading, error } = arts;
+  const [dataArts, setDataArts] = useState([]);
   const dispatch = useDispatch();
-  const history = useHistory()
-  const { data, isLoading, error } = arts
-  const [dataArts, setDataArts] = useState([])
+
   useEffect(() => {
-    if(data){
-      let tempArts = [...data]
-      if(!category) {
-        setDataArts(tempArts)
-      }else {
-        let ArtsData = []
+    if (data) {
+      let tempArts = [...data];
+      if (!category) {
+        setDataArts(tempArts);
+      } else {
+        let ArtsData = [];
 
         for (let i = 0; i < tempArts.length; i++) {
           let flag = false;
@@ -31,11 +32,12 @@ export default function ListDesign({ arts, category }) {
         }
         setDataArts(ArtsData);
       }
-    }    
-  }, [category, data])
+    }
+  }, [category, data]);
   function detailArt(id) {
     history.push("/product/" + id);
   }
+
   const addFav = (id) => {
     // console.log(id,'id favv');
     if(localStorage.access_token){
@@ -50,11 +52,12 @@ export default function ListDesign({ arts, category }) {
       <div class="text-center">
         <div class="spinner-border" role="status">
           <span class="sr-only">Loading...</span>
+
         </div>
       </div>
-    )
+    );
   }
-  if(error) history.push('*')
+  if (error) history.push("*");
   return (
     <div className=" mt-5">
       <div className="row px-5">

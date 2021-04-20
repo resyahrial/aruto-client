@@ -48,41 +48,49 @@ export default function ProductPage() {
   const addToCart = () => {
     const { _id, title, image_url } = artById;
 
-    if (!cart.quantity) {
+    if (localStorage.access_token) {
+      if (!cart.quantity || cart.quantity < 0) {
+        MySwal.fire(
+          "Quantity form invalid",
+          "Please Fill the quantity form",
+          "error"
+        );
+      } else {
+        MySwal.fire({
+          toast: true,
+          position: "top",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          icon: "success",
+          title: "Successfully Add To Cart",
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+        dispatch(
+          setToCart({
+            ...cart,
+            id: _id,
+            title,
+            image_url,
+            position: canvas
+              ? canvas._offset
+              : {
+                  top: 0,
+                  left: 0,
+                },
+          })
+        );
+        history.push("/cart");
+      }
+    } else {
       MySwal.fire(
-        "Quantity can't be empty",
-        "Please Fill the quantity form",
+        "You must login first",
+        "This feature only for member of Aruto",
         "error"
       );
-    } else {
-      MySwal.fire({
-        toast: true,
-        position: "top",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        icon: "success",
-        title: "Successfully Add To Cart",
-        didOpen: (toast) => {
-          toast.addEventListener("mouseenter", Swal.stopTimer);
-          toast.addEventListener("mouseleave", Swal.resumeTimer);
-        },
-      });
-      dispatch(
-        setToCart({
-          ...cart,
-          id: _id,
-          title,
-          image_url,
-          position: canvas
-            ? canvas._offset
-            : {
-                top: 0,
-                left: 0,
-              },
-        })
-      );
-      history.push("/cart");
     }
   };
 
@@ -110,6 +118,10 @@ export default function ProductPage() {
       setIsCanvasLoaded(true);
     }
   }, [cart.item]);
+
+  const addToCartChecker = () => {
+    return !!localStorage.access_token;
+  };
 
   return (
     <>
