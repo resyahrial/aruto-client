@@ -17,6 +17,10 @@ export default function Login() {
 
   const { isLoading, error } = useSelector((state) => state.users);
 
+  if (localStorage.access_token) {
+    history.push("/");
+  }
+
   const onChange = (ev) => {
     const { name, value } = ev.target;
     setData({

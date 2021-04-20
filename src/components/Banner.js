@@ -45,6 +45,13 @@ export default function Banner() {
             alt="..."
           />
         </div>
+        <div>
+          <img
+            src="https://images.vans.com/is/image/VansBrand/sp21-womens-bettertogether-1390x556?$fullres$"
+            className="d-block w-100 height-banner"
+            alt="..."
+          />
+        </div>
       </Slider>
     </div>
   );
