@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import "../assets/style/style.css";
 export default function ListDesign({ arts, category }) {
-  const history = useHistory()
-  const { data, isLoading, error } = arts
-  const [dataArts, setDataArts] = useState([])
+  const history = useHistory();
+  const { data, isLoading, error } = arts;
+  const [dataArts, setDataArts] = useState([]);
   useEffect(() => {
-    if(data){
-      let tempArts = [...data]
-      if(!category) {
-        setDataArts(tempArts)
-      }else {
-        let ArtsData = []
+    if (data) {
+      let tempArts = [...data];
+      if (!category) {
+        setDataArts(tempArts);
+      } else {
+        let ArtsData = [];
 
         for (let i = 0; i < tempArts.length; i++) {
           let flag = false;
@@ -28,21 +28,21 @@ export default function ListDesign({ arts, category }) {
         }
         setDataArts(ArtsData);
       }
-    }    
-  }, [category, data])
+    }
+  }, [category, data]);
   function detailArt(id) {
     history.push("/product/" + id);
   }
-  if(isLoading) {
-    return(
-      <div class="text-center">
-        <div class="spinner-border" role="status">
-          <span class="sr-only">Loading...</span>
+  if (isLoading) {
+    return (
+      <div className="text-center">
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Loading...</span>
         </div>
       </div>
-    )
+    );
   }
-  if(error) history.push('*')
+  if (error) history.push("*");
   return (
     <div className=" mt-5">
       <div className="row px-5">
