@@ -71,6 +71,16 @@ export default function ShoppingCart() {
     setSubTotal(carts.reduce((acc, cart) => acc + cart.totalPrice, 0));
   }, [carts]);
 
+  if(isLoading) {
+    return(
+      <div class="text-center">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <>
       <section id="shopping-cart">

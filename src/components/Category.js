@@ -1,11 +1,23 @@
 import React from "react";
-import "../assets/style/style.css";
 import Slider from "react-slick";
+
+import "../assets/style/style.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+export default function Category({dataCategories, setCategory}) {
+  const { categories, isLoading, error } = dataCategories
+  
+  if(isLoading) {
+    return(
+      <div class="text-center">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    )
+  }
 
-export default function Category({categories, setCategory}) {
   const settings = {
     dots: true,
     infinite: true,
@@ -14,6 +26,7 @@ export default function Category({categories, setCategory}) {
     slidesToScroll: 3,
     autoplay: true,
   };
+  
   return (
     <div className="mt-content">
       <h3 className="font-weight-bold">Categories</h3>
