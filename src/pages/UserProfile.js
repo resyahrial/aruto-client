@@ -16,16 +16,16 @@ export default function UserProfile() {
   const [myWorks, setMyWorks] = useState(true);
   const [myPurchases, setMyPurchase] = useState(false);
   const [myFavorites, setMyFavorites] = useState(false);
+  const [myLike, setMyLike] = useState([]);
   const history = useHistory();
 
-  const likedArts = useSelector((state) => state.arts.data);
-  // console.log(likedArts);
-  // console.log(transactionHistory);
+  const fav = useSelector((state) => state.arts.data);
 
   useEffect(() => {
     dispatch(fetchTransactionHistory("Test"));
     dispatch(fetchUserById(localStorage.access_token));
     dispatch(fetchArt());
+    viewLike()
   }, [dispatch]);
 
   const viewMyWorks = (e) => {
@@ -47,10 +47,22 @@ export default function UserProfile() {
     setMyWorks(false);
     setMyPurchase(false);
     setMyFavorites(true);
+    viewLike()
   };
 
   if (!localStorage.access_token) {
     history.push("/login");
+  }
+  
+  function viewLike(){
+    let allLike=[]
+    fav?.forEach((findItem)=>{
+     let isLike= findItem.likes.find(e=>e===localStorage._id)
+     if(isLike){
+       allLike.push(findItem)
+     }
+    })
+    setMyLike(allLike)
   }
 
   return (
@@ -178,15 +190,15 @@ export default function UserProfile() {
                     ""
                   )}
                   {myFavorites ? (
-                    likedArts?.likes?.length === 0 ? (
+                    myLike?.length === 0 ? (
                       <>
                         <div className="col-lg text-center pt-5">
-                          <h3>There's No Favorites to Show</h3>
+                          <h3>There's No Favorite to show</h3>
                         </div>
                       </>
                     ) : (
-                      likedArts?.forEach((userLike) => {
-                        console.log(userLike.likes);
+                      myLike?.map((art) => {
+                        return <MyArtCard key={art._id} art={art} />;
                       })
                     )
                   ) : (
