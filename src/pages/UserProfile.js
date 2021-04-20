@@ -3,25 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { fetchUserById } from "../redux/actions/users";
 import { MyArtCard, AddArt } from "../components";
+import { useHistory } from "react-router-dom";
 
 export default function UserProfile() {
   const dispatch = useDispatch();
   const {userDataById, isLoading} = useSelector((state) => state.users);
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(fetchUserById(localStorage.access_token));
   }, [dispatch]);
 
-  // if(isLoading) {
-  //   console.log(isLoading)
-  //   return(
-      // <div class="text-center">
-      //   <div class="spinner-border" role="status">
-      //     <span class="sr-only">Loading...</span>
-      //   </div>
-      // </div>
-  //   )
-  // }
+  if (!localStorage.access_token) {
+    history.push("/login");
+  }
 
   return (
     <>

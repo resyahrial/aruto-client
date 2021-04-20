@@ -1,11 +1,13 @@
 import React from "react";
-import "../assets/style/style.css";
-import { useHistory } from "react-router-dom";
+import Slider from "react-slick";
 
+import "../assets/style/style.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export default function Category({dataCategories, setCategory}) {
   const { categories, isLoading, error } = dataCategories
-  const history = useHistory()
+  
   if(isLoading) {
     return(
       <div class="text-center">
@@ -15,21 +17,30 @@ export default function Category({dataCategories, setCategory}) {
       </div>
     )
   }
-  if(error) history.push('*')
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 300,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    autoplay: true,
+  };
+  
   return (
     <div className="mt-content">
       <h3 className="font-weight-bold">Categories</h3>
-      <div className="row mt-5  justify-content-between">
+      <Slider {...settings} className="mt-5 mx-0  justify-content-between">
         {
           categories.map(category => {
             return(
               <div 
                 onClick={() => setCategory(category._id)}
                 key={category._id} 
-                className="col-3 justify-content-center d-flex px-0 position-relative">
+                className="px-5 justify-content-center d-flex px-0 position-relative">
               <img
                 
-                className="w-75"
+                className="w-100"
                 src={category.image_url}
                 alt=""
               />
@@ -40,7 +51,7 @@ export default function Category({dataCategories, setCategory}) {
             )
           })
         }
-      </div>
+    </Slider>
     </div>
   );
 }

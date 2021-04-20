@@ -4,8 +4,6 @@ const initialState = {
   error: null,
 };
 
-// name rule for type dispatch => <reducer_name>/<action>
-// ex: arts/fetch, arts/add, users/login
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case "carts/isLoading":
@@ -15,9 +13,9 @@ const reducer = (state = initialState, { type, payload }) => {
     case "carts/add":
       return { ...state, data: [...state.data, payload] };
     case "carts/deleteItem":
-      // console.log(payload);
       return { ...state, data: payload };
-
+    case "carts/clear":
+      return { ...state, data: [] };
     default:
       return state;
   }

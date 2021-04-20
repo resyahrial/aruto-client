@@ -1,27 +1,11 @@
 import axios from "../axios";
 
-export const checkout = () => (dispatch) => {
+export const checkout = (payload) => (dispatch) => {
   dispatch({ type: "transactions/isLoading", payload: true });
   axios
     .post(
       "/transaction",
-      {
-        arts: [
-          {
-            id: "607de8cfc9fe3d1cf4106ed7",
-            item: "T-Shirt",
-            size: "XL",
-            color: "white",
-            position: {
-              left: 200,
-              top: 200,
-            },
-            quantity: 2,
-          },
-        ],
-        gross_amount: 100000,
-        address: "Jakarta",
-      },
+      { ...payload },
       {
         headers: {
           access_token: localStorage.access_token,
@@ -47,8 +31,7 @@ export const paid = (payload) => (dispatch) => {
       },
       {
         headers: {
-          access_token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDdiZmE1ZjhhYTMwZWVkNDlkMDdkMjQiLCJlbWFpbCI6InJpb0BtYWlsLmNvbSIsImlhdCI6MTYxODc1NTQyOH0.iOsV8zc1bIe_lywsevYv8rd0A3ZeAAV-xybJhiV1hdY",
+          access_token: localStorage.access_token,
         },
       }
     )

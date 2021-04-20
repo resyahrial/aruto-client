@@ -1,172 +1,90 @@
 import React, { useEffect, useState } from "react";
 import { fabric } from "fabric";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams, useHistory } from "react-router-dom";
 
 import tShirt from "../assets/images/background_tshirt.png";
-// import AnotherArtCard from "../components/AnotherArtCard";
-// import domtoimage from "dom-to-image";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import { fetchArtsById } from "../redux/actions/arts";
 import { setToCart } from "../redux/actions/carts";
 import { useHistory } from "react-router-dom";
 
 export default function ProductPage() {
-  const history = useHistory()
   const params = useParams();
   const dispatch = useDispatch();
-  const {dataById, isLoading, error} = useSelector((state) => state.arts);
-  const artById = dataById
-  // const isLoading = useSelector((state) => state.arts.isLoading);
-  // const error = useSelector((state) => state.arts.error);
+  const artById = useSelector((state) => state.arts.dataById);
+  const carts = useSelector((state) => state.carts.data);
+  const history = useHistory();
 
-  const [canvas, setCanvas] = useState("");
-  const [tShirtColor, setTshirtColor] = useState("white");
-  const [addArt, setAddArt] = useState(false);
-  const [selectedItem, setSelectedItem] = useState("Artboard");
-  const [selectedSize, setSelectedSize] = useState("XS");
-  const [selectedQuantity, setSelectedQuantity] = useState(1);
+  const [cart, setCart] = useState({
+    item: "Artboard",
+    size: "XS",
+    color: "white",
+    position: "",
+    quantity: 0,
+    totalPrice: artById.price || 0,
+  });
+  const [canvas, setCanvas] = useState(null);
+  const [isCanvasLoaded, setIsCanvasLoaded] = useState(false);
 
-  // const [refTshirt] = useState(React.createRef());
-  // const [createdImage, setCreatedImage] = useState("");
-  // const [logo, setLogo] = useState(false);
-  // const [img, setImg] = useState("Insert Your Image URL for Custom development");
-  // const [parsedImg, setParsedImg] = useState("");
-
-  useEffect(() => {
-    dispatch(fetchArtsById(params.id));
-    setCanvas(tShirtCanvas());
-
-    // if (!canvas._object) {
-    //   setLogo(true);
-    // }
-  }, [dispatch, params.id]);
-
-  // console.log(artById);
-
-  // if (artById?.image_url) {
-  //   toDataURL(parsedImg, function (dataUrl) {
-  //     setParsedImg(dataUrl);
-  //   });
-  // }
-
-  // function toDataURL(url, callback) {
-  //   let xhr = new XMLHttpRequest();
-  //   xhr.onload = function () {
-  //     let reader = new FileReader();
-  //     reader.onloadend = function () {
-  //       callback(reader.result);
-  //     };
-  //     reader.readAsDataURL(xhr.response);
-  //   };
-  //   xhr.open("GET", url);
-  //   xhr.responseType = "blob";
-  //   xhr.send();
-  // }
-
-  const tShirtCanvas = () =>
-    new fabric.Canvas("tshirt-canvas", {
-      height: 400,
-      width: 200,
-    });
-
-  // const node = refTshirt.current;
+  const onChange = (ev, colorValue) => {
+    if (ev.target.name) {
+      const { name, value } = ev.target;
+      setCart({
+        ...cart,
+        [name]: value,
+        totalPrice: name === "quantity" ? value * artById.price : artById.price,
+      });
+    } else {
+      setCart({
+        ...cart,
+        color: colorValue,
+      });
+    }
+  };
 
   const addToCart = () => {
-    // domtoimage
-    //   .toPng(node)
-    //   .then(function (dataUrl) {
-    //     console.log(dataUrl);
-    //     let img = new Image();
-    //     img.crossOrigin = "Anonymous";
-    //     img.src = dataUrl;
-    //     setCreatedImage(dataUrl);
-    //   })
-    //   .catch(function (error) {
-    //     console.error("oops, something went wrong!", { error });
-    //   });
-    let itemSelected;
+    const { _id, title, image_url } = artById;
+    dispatch(
+      setToCart({
+        ...cart,
+        id: _id,
+        title,
+        image_url,
+        position: canvas
+          ? canvas._offset
+          : {
+              top: 0,
+              left: 0,
+            },
+      })
+    );
+    history.push("/cart");
+  };
 
-    if (selectedItem === "Artboard") {
-      itemSelected = {
-        arts: [
-          {
-            id: params.id,
-            item: selectedItem,
-            size: "",
-            color: "",
-            position: canvas._offset,
-            quantity: selectedQuantity,
-          },
-        ],
-        gross_amount: +selectedQuantity * artById?.price * 0.75,
-        image_product: artById?.image_url,
-        art_title: artById?.title,
-        address: "",
-      };
-      if (!selectedQuantity) {
-        console.log("Quantity Can't be Empty");
-      } else {
-        // console.log("dispatch");
-        // console.log(itemSelected);
-        dispatch(setToCart(itemSelected));
-      }
-    } else {
-      itemSelected = {
-        arts: [
-          {
-            id: params.id,
-            item: selectedItem,
-            size: selectedSize,
-            color: tShirtColor,
-            position: canvas._offset,
-            quantity: selectedQuantity,
-          },
-        ],
-        gross_amount: +selectedQuantity * artById?.price,
-        image_product: artById?.image_url,
-        art_title: artById?.title,
-        address: "",
-      };
-      if (!selectedQuantity || !selectedSize) {
-        console.log("Quantity or Size Can't be Empty");
-      } else {
-        // console.log(itemSelected);
-        dispatch(setToCart(itemSelected));
-      }
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    dispatch(fetchArtsById(params.id));
+
+    setCanvas(
+      new fabric.Canvas("tshirt-canvas", {
+        height: 400,
+        width: 200,
+      })
+    );
+  }, []);
+
+  useEffect(() => {
+    if (cart.item !== "Artboard" && !isCanvasLoaded) {
+      fabric.Image.fromURL(artById.image_url, function (myImg) {
+        myImg.scaleToHeight(200);
+        myImg.scaleToWidth(200);
+        canvas.centerObject(myImg);
+        canvas.add(myImg);
+        canvas.renderAll();
+      });
+      setIsCanvasLoaded(true);
     }
-
-    // console.log("Add to Cart");
-  };
-
-  const changeColor = (color) => {
-    setTshirtColor(color);
-  };
-
-  const customPosition = () => {
-    setAddArt(true);
-    fabric.Image.fromURL(artById.image_url, function (myImg) {
-      myImg.scaleToHeight(200);
-      myImg.scaleToWidth(200);
-      canvas.centerObject(myImg);
-      canvas.add(myImg);
-      canvas.renderAll();
-    });
-  };
-
-  const selectItemSetter = (e) => {
-    setTshirtColor("white");
-    setSelectedSize("XS");
-    setSelectedQuantity(1);
-    setSelectedItem(e.target.value);
-  };
-
-  const selectSize = (e) => {
-    setSelectedSize(e.target.value);
-  };
-
-  const selectQuantity = (e) => {
-    setSelectedQuantity(e.target.value);
-  };
+  }, [cart.item]);
 
   if(isLoading) {
     return(
@@ -185,11 +103,10 @@ export default function ProductPage() {
         <div className="container pt-5">
           <div className="row">
             <div className="col-lg-6 justify-content-center d-flex py-3 border">
-              {selectedItem === "Artboard" ? (
+              {cart.item === "Artboard" ? (
                 <div
-                  // ref={refTshirt}
                   id="artboard-div"
-                  style={{ backgroundColor: tShirtColor }}
+                  style={{ backgroundColor: cart.color }}
                   className="text-center pt-5"
                 >
                   <img
@@ -209,11 +126,7 @@ export default function ProductPage() {
                   </div>
                 </div>
               ) : (
-                <div
-                  // ref={refTshirt}
-                  id="tshirt-div"
-                  style={{ backgroundColor: tShirtColor }}
-                >
+                <div id="tshirt-div" style={{ backgroundColor: cart.color }}>
                   <img
                     id="tshirt-backgroundpicture"
                     src={tShirt}
@@ -229,170 +142,121 @@ export default function ProductPage() {
             </div>
             <div className="col-lg-6">
               <div className="col-lg-12">
-                <h2>{artById?.title}</h2>
-                <h3 className="pb-3">Artist: {artById?.user?.username}</h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                  et diam eu turpis congue posuere. Integer lacinia lectus nibh,
-                  id aliquet diam bibendum ut. Nullam euismod a nunc vitae
-                  iaculis. Quisque dui nibh, congue eu metus et, hendrerit
-                  convallis magna. Ut condimentum porttitor mattis. Donec ac
-                  massa odio. Ut volutpat, nisi auctor laoreet consequat, dui
-                  leo hendrerit nulla, sit amet pretium tellus lorem in dolor.
-                  Donec viverra fringilla mauris ac ullamcorper. Vivamus
-                  tincidunt aliquam lacus at pulvinar. Aliquam ac tellus ut elit
-                  efficitur fringilla.
-                </p>
+                <h1 className="h2 font-weight-bold mb-1">{artById?.title}</h1>
+                <h2 className="h6 font-weight-bold">
+                  By:{" "}
+                  <span className="text-muted font-weight-normal">
+                    {artById?.user?.username}
+                  </span>
+                </h2>
+                <p className="mt-3 font-weight-thin">{artById?.description}</p>
               </div>
-              <div className="col-lg-12 py-3">
+
+              <div className="col-8">
                 <div className="row">
-                  <div className="col-lg-3">
-                    <select
-                      onChange={selectItemSetter}
-                      className="form-control"
-                      defaultValue={selectedItem}
-                    >
-                      <option disabled>Item</option>
-                      <option value="Artboard">Art Board</option>
-                      <option value="T-shirt">T-shirt</option>
-                    </select>
-                  </div>
-                  {selectedItem === "T-shirt" ? (
-                    <div className="col-lg-3">
-                      <select
-                        onChange={selectSize}
-                        className="form-control"
-                        defaultValue={selectedSize}
-                      >
-                        <option disabled>Size</option>
-                        <option value="XS">XS</option>
-                        <option value="S">S</option>
-                        <option value="M">M</option>
-                        <option value="L">L</option>
-                        <option value="XL">XL</option>
-                        <option value="XXL">XXL</option>
-                      </select>
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                  <div className="col-lg-3">
-                    <input
-                      onChange={selectQuantity}
-                      className="form-control"
-                      type="number"
-                      placeholder="Quantity"
-                      value={selectedQuantity}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-6">
-                {selectedItem === "Artboard" ? (
-                  <>
-                    <button
-                      className="btn btn-primary"
-                      onClick={customPosition}
-                      style={{ opacity: 0 }}
-                    >
-                      Add Art
-                    </button>
-                    <div>
-                      <p>Spec: Canvas, Size 60 x 80 </p>
-                    </div>
-                  </>
-                ) : (
-                  <button
-                    className="btn btn-primary"
-                    onClick={customPosition}
-                    style={addArt ? { display: "none" } : { opacity: 1 }}
+                  <select
+                    onChange={onChange}
+                    className="form-control col-4"
+                    value={cart.item}
+                    name="item"
                   >
-                    Add Art
-                  </button>
-                )}
-              </div>
-              {selectedItem === "T-shirt" ? (
-                <div className="col-lg-12 pt-3">
-                  <h5>Choose Color</h5>
-                  <div className="col-lg-12">
-                    <div className="row">
-                      <div className="pr-3">
-                        <span
-                          onClick={(e) => changeColor("white")}
-                          className="dot dot-white"
-                        ></span>
-                      </div>
-                      <div className="pr-3">
-                        <span
-                          onClick={(e) => changeColor("black")}
-                          className="dot dot-black"
-                        ></span>
-                      </div>
-                      <div className="pr-3">
-                        <span
-                          onClick={(e) => changeColor("red")}
-                          className="dot dot-red"
-                        ></span>
-                      </div>
-                      <div className="pr-3">
-                        <span
-                          onClick={(e) => changeColor("green")}
-                          className="dot dot-green"
-                        ></span>
-                      </div>
-                      <div className="pr-3">
-                        <span
-                          onClick={(e) => changeColor("yellow")}
-                          className="dot dot-yellow"
-                        ></span>
-                      </div>
-                      <div className="pr-3">
-                        <span
-                          onClick={(e) => changeColor("blue")}
-                          className="dot dot-blue"
-                        ></span>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <p className="pt-3">Spec: Cotton Combed 80s</p>
+                    <option disabled>Item</option>
+                    <option value="Artboard">Art Board</option>
+                    <option value="T-shirt">T-shirt</option>
+                  </select>
+                  <div className="col-8">
+                    <p
+                      className="my-0 text-muted"
+                      style={{ fontSize: "0.8rem" }}
+                    >
+                      Specification
+                    </p>
+                    <h6 className="mt-0 font-weight-bold">
+                      {cart.item === "Artboard"
+                        ? "Canvas, Size 60 x 80"
+                        : "Cotton Combed 80s"}
+                    </h6>
                   </div>
                 </div>
-              ) : (
-                ""
+              </div>
+
+              {cart.item !== "Artboard" && (
+                <div className="col-8">
+                  <div className="row align-items-center">
+                    <select
+                      onChange={onChange}
+                      className="form-control col-4"
+                      value={cart.size}
+                      name="size"
+                    >
+                      <option disabled>Size</option>
+                      <option value="XS">XS</option>
+                      <option value="S">S</option>
+                      <option value="M">M</option>
+                      <option value="L">L</option>
+                      <option value="XL">XL</option>
+                      <option value="XXL">XXL</option>
+                    </select>
+                    <div className="col-8 d-flex justify-content-around">
+                      {["white", "black", "red", "green", "yellow", "blue"].map(
+                        (color, idx) => {
+                          return (
+                            <div
+                              className="d-flex align-items-center justify-content-center"
+                              key={idx}
+                            >
+                              <span
+                                onClick={(ev) => onChange(ev, color)}
+                                className={`dot dot-${color}`}
+                              ></span>
+                            </div>
+                          );
+                        }
+                      )}
+                    </div>
+                  </div>
+                </div>
               )}
 
-              <div className="col-lg-12 pt-3">
-                <h5>Price</h5>
-                <h6>
-                  {selectedItem === "Artboard"
-                    ? new Intl.NumberFormat("id-Rp", {
+              <div className="col-8 my-2">
+                <div className="row">
+                  <input
+                    onChange={onChange}
+                    className="form-control col-4"
+                    type="number"
+                    name="quantity"
+                    value={cart.quantity}
+                  />
+                  <div className="col-8">
+                    <p
+                      className="my-0 text-muted"
+                      style={{ fontSize: "0.8rem" }}
+                    >
+                      Price
+                    </p>
+                    <h6 className="mt-0 font-weight-bold">
+                      {new Intl.NumberFormat("id-Rp", {
                         style: "currency",
                         currency: "IDR",
-                      }).format(artById?.price * 0.75)
-                    : new Intl.NumberFormat("id-Rp", {
-                        style: "currency",
-                        currency: "IDR",
-                      }).format(artById?.price)}
-                </h6>
+                      }).format(cart.totalPrice)}
+                    </h6>
+                  </div>
+                </div>
+                <div className="row">
+                  <button
+                    onClick={addToCart}
+                    type="button"
+                    className="btn btn-primary btn-block"
+                    disabled={
+                      carts.filter((cart) => cart.id === params.id).length > 0
+                    }
+                  >
+                    {carts.filter((cart) => cart.id === params.id).length > 0
+                      ? "Already on your carts"
+                      : "Add To Cart"}
+                  </button>
+                </div>
               </div>
-              <div className="col-lg-12 py-3">
-                <button
-                  onClick={addToCart}
-                  type="button"
-                  className="btn btn-primary"
-                >
-                  Add To Cart
-                </button>
-              </div>
-            </div>
-            <div className="col-lg-6 pt-3">
-              {/* <h5>Another art you might like</h5>
-              <div className="row">
-                <AnotherArtCard />
-                <AnotherArtCard />
-                <AnotherArtCard />
-              </div> */}
             </div>
           </div>
         </div>
