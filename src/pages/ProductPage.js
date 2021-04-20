@@ -6,6 +6,7 @@ import { useParams, useHistory } from "react-router-dom";
 import tShirt from "../assets/images/background_tshirt.png";
 import { fetchArtsById } from "../redux/actions/arts";
 import { setToCart } from "../redux/actions/carts";
+import { useHistory } from "react-router-dom";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -13,9 +14,6 @@ import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
 
 export default function ProductPage() {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
   const params = useParams();
   const dispatch = useDispatch();
   const artById = useSelector((state) => state.arts.dataById);
@@ -91,6 +89,7 @@ export default function ProductPage() {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     dispatch(fetchArtsById(params.id));
 
     setCanvas(
@@ -113,6 +112,17 @@ export default function ProductPage() {
       setIsCanvasLoaded(true);
     }
   }, [cart.item]);
+
+  if(isLoading) {
+    return(
+      <div class="text-center">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    )
+  }
+  if(error) history.push('*')
 
   return (
     <>
