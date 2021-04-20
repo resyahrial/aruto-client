@@ -111,17 +111,6 @@ export default function ProductPage() {
     }
   }, [cart.item]);
 
-  // if(isLoading) {
-  //   return(
-  //     <div class="text-center">
-  //       <div class="spinner-border" role="status">
-  //         <span class="sr-only">Loading...</span>
-  //       </div>
-  //     </div>
-  //   )
-  // }
-  // if(error) history.push('*')
-
   return (
     <>
       <section id="product-page">

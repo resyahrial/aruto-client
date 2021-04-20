@@ -1,5 +1,6 @@
 const initialState = {
   data: {},
+  myHistory: [],
   isLoading: false,
   error: null,
 };
@@ -12,6 +13,8 @@ const reducer = (state = initialState, { type, payload }) => {
       return { ...state, isLoading: payload };
     case "transactions/error":
       return { ...state, error: payload };
+    case "transactions/history":
+      return { ...state, myHistory: payload };
     default:
       return state;
   }
