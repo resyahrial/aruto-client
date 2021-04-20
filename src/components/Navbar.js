@@ -35,6 +35,7 @@ export default function Navbar() {
     <nav
       className="navbar navbar-expand-lg navbar-light"
       style={{ maxHeight: 70 }}
+      id="navbar"
     >
       <div className="container justify-content-between align-items-center">
         <Link className="navbar-brand" to="/">

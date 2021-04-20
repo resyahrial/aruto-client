@@ -8,6 +8,9 @@ import { fetchArtsById } from "../redux/actions/arts";
 import { setToCart } from "../redux/actions/carts";
 
 export default function ProductPage() {
+   useEffect(() => {
+    window.scrollTo(0, 0);
+  },[]);
   const params = useParams();
   const dispatch = useDispatch();
   const artById = useSelector((state) => state.arts.dataById);

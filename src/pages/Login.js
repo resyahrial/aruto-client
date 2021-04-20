@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import "../assets/style/style.css";
 import { SideLeft } from "../components";
 import { login } from "../redux/actions/users";
-
+import Swal from 'sweetalert2'
 export default function Login() {
   const [data, setData] = useState({
     email: "",
@@ -34,14 +34,21 @@ export default function Login() {
 
   useEffect(() => {
     console.log(error);
-    if (!isLoading && localStorage.access_token) history.push("/");
+    if (!isLoading && localStorage.access_token){
+      history.push("/");
+      Swal.fire(
+        'Login Success',
+        '',
+        'success'
+      )
+    } 
   }, [isLoading]);
 
   return (
     <div className="container-fluid mx-0 px-0">
-      <div className="row">
+      <div className="row mx-0 px-0">
         <SideLeft />
-        <div className="col-6">
+        <div className="col-6 mx-0 px-0">
           <div className="mx-5 mt-2 mb-5">
             <div className="mt-0 mb-3 pb-0 pt-5">
               <h1 className="font-weight-bold text-left">
@@ -49,7 +56,7 @@ export default function Login() {
                 Welcome Back
               </h1>
             </div>
-            <div className="mt-5 pt-5 col-12 col-md-12">
+            <div className="mt-5 mx-0 pt-5 col-12 col-md-12">
               <form className="mt-0 w-100" onSubmit={(e) => onSubmit(e)}>
                 <div className="input-div">
                   <div className="d-flex justify-content-center align-items-center">
