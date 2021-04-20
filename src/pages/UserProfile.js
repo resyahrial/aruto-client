@@ -3,14 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { fetchUserById } from "../redux/actions/users";
 import { MyArtCard, AddArt } from "../components";
+import { useHistory } from "react-router-dom";
 
 export default function UserProfile() {
   const dispatch = useDispatch();
   const userDataById = useSelector((state) => state.users.userDataById);
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(fetchUserById(localStorage.access_token));
   }, [dispatch]);
+
+  if (!localStorage.access_token) {
+    history.push("/login");
+  }
 
   return (
     <>

@@ -14,6 +14,11 @@ export default function Register() {
   const [fullname, setFullname] = useState("");
   const [password, setPassword] = useState("");
   const { isLoading, error } = useSelector((state) => state.users);
+
+  if (localStorage.access_token) {
+    history.push("/");
+  }
+
   const onRegister = (e) => {
     e.preventDefault();
     if (username !== "" && email !== "" && fullname !== "" && password !== "") {
