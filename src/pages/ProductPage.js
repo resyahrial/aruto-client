@@ -8,11 +8,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchArtsById } from "../redux/actions/arts";
 import { setToCart } from "../redux/actions/carts";
+import { useHistory } from "react-router-dom";
 
 export default function ProductPage() {
+  const history = useHistory()
   const params = useParams();
   const dispatch = useDispatch();
-  const artById = useSelector((state) => state.arts.dataById);
+  const {dataById, isLoading, error} = useSelector((state) => state.arts);
+  const artById = dataById
   // const isLoading = useSelector((state) => state.arts.isLoading);
   // const error = useSelector((state) => state.arts.error);
 
@@ -164,6 +167,17 @@ export default function ProductPage() {
   const selectQuantity = (e) => {
     setSelectedQuantity(e.target.value);
   };
+
+  if(isLoading) {
+    return(
+      <div class="text-center">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    )
+  }
+  if(error) history.push('*')
 
   return (
     <>

@@ -27,7 +27,7 @@ export function fetchUser() {
         dispatch(setUsers(data));
       })
       .catch((err) => dispatch({ type: "users/error", payload: err }))
-      .then(() => dispatch({ type: "users/isLoading", payload: false }));
+      .finally(() => dispatch({ type: "users/isLoading", payload: false }));
   };
 }
 

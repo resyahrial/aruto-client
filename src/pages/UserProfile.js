@@ -6,19 +6,41 @@ import { MyArtCard, AddArt } from "../components";
 
 export default function UserProfile() {
   const dispatch = useDispatch();
-  const userDataById = useSelector((state) => state.users.userDataById);
+  const {userDataById, isLoading} = useSelector((state) => state.users);
 
   useEffect(() => {
     dispatch(fetchUserById(localStorage.access_token));
   }, [dispatch]);
 
+  // if(isLoading) {
+  //   console.log(isLoading)
+  //   return(
+      // <div class="text-center">
+      //   <div class="spinner-border" role="status">
+      //     <span class="sr-only">Loading...</span>
+      //   </div>
+      // </div>
+  //   )
+  // }
+
   return (
     <>
       <section id="user-profile">
+        {
+          isLoading &&       
+          <div class="text-center">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        }
         <div className="container pt-3">
           <div className="row">
             <div className="col-lg-3 pr-3">
               <div className="border rounded-lg">
+                {
+                  JSON.stringify(isLoading)
+                }
                 {/* profile */}
                 <div className="d-flex align-items-center py-3 px-3">
                   <img
