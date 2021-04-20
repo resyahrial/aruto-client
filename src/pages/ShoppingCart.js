@@ -17,6 +17,10 @@ export default function ShoppingCart() {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  if (!localStorage.access_token) {
+    history.push("/login");
+  }
+
   const shippingFee = carts?.length === 0 ? 0 : 50000;
 
   const checkoutCarts = () => {
