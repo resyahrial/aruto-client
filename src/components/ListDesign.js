@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import "../assets/style/style.css";
+import { useDispatch, useSelector } from "react-redux";
+import { addFav, addFavorite} from "../redux/actions/arts";
 export default function ListDesign({ arts, category }) {
   const history = useHistory();
   const { data, isLoading, error } = arts;
   const [dataArts, setDataArts] = useState([]);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (data) {
       let tempArts = [...data];
@@ -33,11 +37,22 @@ export default function ListDesign({ arts, category }) {
   function detailArt(id) {
     history.push("/product/" + id);
   }
-  if (isLoading) {
-    return (
-      <div className="text-center">
-        <div className="spinner-border" role="status">
-          <span className="sr-only">Loading...</span>
+
+  const addFav = (id) => {
+    // console.log(id,'id favv');
+    if(localStorage.access_token){
+      dispatch(addFavorite(id))
+    }
+    else{
+      history.push("/Login");
+    }
+  };
+  if(isLoading) {
+    return(
+      <div class="text-center">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+
         </div>
       </div>
     );
@@ -54,6 +69,7 @@ export default function ListDesign({ arts, category }) {
                 ]
                 <img src={art.image_url} className="w-100 item-cart-2" alt="" />
                 <img
+                  onClick={()=>addFav(art._id)}
                   src="/images/heart.svg"
                   alt=""
                   className="bottom-left-icon"

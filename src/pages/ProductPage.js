@@ -6,7 +6,6 @@ import { useParams, useHistory } from "react-router-dom";
 import tShirt from "../assets/images/background_tshirt.png";
 import { fetchArtsById } from "../redux/actions/arts";
 import { setToCart } from "../redux/actions/carts";
-
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
@@ -120,22 +119,9 @@ export default function ProductPage() {
     }
   }, [cart.item]);
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="text-center">
-  //       <div className="spinner-border" role="status">
-  //         <span className="sr-only">Loading...</span>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-  // if (error) history.push("*");
-
   const addToCartChecker = () => {
     return !!localStorage.access_token;
   };
-
-  // console.log(addToCartChecker());
 
   return (
     <>
