@@ -5,6 +5,7 @@ import { fetchUserById } from "../redux/actions/users";
 import { fetchTransactionHistory } from "../redux/actions/transactions";
 import { MyArtCard, AddArt, MyTransactionCard } from "../components";
 import { useHistory } from "react-router-dom";
+import { fetchArt } from "../redux/actions/arts";
 
 export default function UserProfile() {
   const dispatch = useDispatch();
@@ -15,13 +16,19 @@ export default function UserProfile() {
   const [myWorks, setMyWorks] = useState(true);
   const [myPurchases, setMyPurchase] = useState(false);
   const [myFavorites, setMyFavorites] = useState(false);
+  const [myLike, setMyLike] = useState([]);
   const history = useHistory();
+
+  const fav = useSelector((state) => state.arts.data);
+  // console.log(fav,'diluar com');
 
   console.log(transactionHistory);
 
   useEffect(() => {
     dispatch(fetchTransactionHistory("Test"));
     dispatch(fetchUserById(localStorage.access_token));
+    dispatch(fetchArt());
+    viewLike()
   }, [dispatch]);
 
   const viewMyWorks = (e) => {
@@ -43,10 +50,21 @@ export default function UserProfile() {
     setMyWorks(false);
     setMyPurchase(false);
     setMyFavorites(true);
+    viewLike()
   };
 
   if (!localStorage.access_token) {
     history.push("/login");
+  }
+  function viewLike(){
+    let allLike=[]
+    fav?.forEach((findItem)=>{
+     let isLike= findItem.likes.find(e=>e===localStorage._id)
+     if(isLike){
+       allLike.push(findItem)
+     }
+    })
+    setMyLike(allLike)
   }
 
   return (
@@ -174,36 +192,16 @@ export default function UserProfile() {
                     ""
                   )}
                   {myFavorites ? (
-                    userDataById?.data?.arts.length === 0 ? (
+                    myLike?.length === 0 ? (
                       <>
                         <div className="col-lg text-center pt-5">
-                          <h3>There's No Favorites to Show</h3>
+                          <h3>There's No Favorite to show</h3>
                         </div>
                       </>
                     ) : (
-                      <div className="col-lg-12">
-                        <table className="table table-striped">
-                          <thead>
-                            <tr>
-                              <th scope="col">#Transaction-ID</th>
-                              <th scope="col">Item</th>
-                              <th scope="col">Shipment Address</th>
-                              <th scope="col">Transaction Amount</th>
-                              <th scope="col">Payment Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {transactionHistory?.map((history) => {
-                              return (
-                                <MyTransactionCard
-                                  key={history._id}
-                                  history={history}
-                                />
-                              );
-                            })}
-                          </tbody>
-                        </table>
-                      </div>
+                      myLike?.map((art) => {
+                        return <MyArtCard key={art._id} art={art} />;
+                      })
                     )
                   ) : (
                     ""
