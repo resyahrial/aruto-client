@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function MyArtCart({ art }) {
-  console.log(art);
+  // console.log(art);
   return (
     <>
       <div className="col-lg-3">
