@@ -38,6 +38,13 @@ export default function Banner() {
             alt="..."
           />
         </div>
+        <div>
+          <img
+            src="https://www.muscatgrandmall.com/media/2437/men-fashion.jpg?anchor=center&mode=crop&width=1600&height=600&rnd=132032467470000000"
+            className="d-block w-100 height-banner"
+            alt="..."
+          />
+        </div>
       </Slider>
     </div>
   );
