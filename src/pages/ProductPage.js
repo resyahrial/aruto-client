@@ -10,6 +10,9 @@ import { fetchArtsById } from "../redux/actions/arts";
 import { setToCart } from "../redux/actions/carts";
 
 export default function ProductPage() {
+   useEffect(() => {
+    window.scrollTo(0, 0);
+  },[]);
   const params = useParams();
   const dispatch = useDispatch();
   const artById = useSelector((state) => state.arts.dataById);
@@ -170,7 +173,7 @@ export default function ProductPage() {
       <section id="product-page">
         <div className="container pt-5">
           <div className="row">
-            <div className="col-lg-6 justify-content-center d-flex py-3 border">
+            <div className="col-lg-6 justify-content-center d-flex align-self-center py-3 border">
               {selectedItem === "Artboard" ? (
                 <div
                   // ref={refTshirt}
