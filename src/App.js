@@ -11,7 +11,13 @@ import {
   UserProfile,
   ProductPage,
 } from "./pages";
-import { Navbar, Footer } from "./components";
+import {
+  Navbar,
+  Footer,
+  GuardedRouteBefore,
+  GuardedRouteAfter,
+} from "./components";
+import { verificationLogin } from "./helpers/authVerification";
 
 function App() {
   return (
@@ -21,21 +27,32 @@ function App() {
         <Route path="/product/:id">
           <ProductPage />
         </Route>
-        <Route path="/profile">
-          <UserProfile />
-        </Route>
-        <Route path="/cart">
-          <ShoppingCart />
-        </Route>
-        <Route path="/success">
-          <Success />
-        </Route>
-        <Route path="/register">
-          <Register />
-        </Route>
-        <Route path="/login">
-          <Login />
-        </Route>
+        <GuardedRouteBefore
+          path="/profile"
+          component={UserProfile}
+          auth={verificationLogin()}
+        />
+        <GuardedRouteBefore
+          path="/cart"
+          component={ShoppingCart}
+          auth={verificationLogin()}
+        />
+        <GuardedRouteBefore
+          path="/success"
+          component={Success}
+          auth={verificationLogin()}
+        />
+
+        <GuardedRouteAfter
+          path="/register"
+          component={Register}
+          auth={verificationLogin()}
+        />
+        <GuardedRouteAfter
+          path="/login"
+          component={Login}
+          auth={verificationLogin()}
+        />
         <Route exact path="/">
           <Home />
         </Route>
@@ -49,3 +66,19 @@ function App() {
 }
 
 export default App;
+
+//  {/* <Route path="/profile">
+//     <UserProfile />
+//   </Route> */}
+//   {/* <Route path="/cart">
+//     <ShoppingCart />
+//   </Route> */}
+//       {/* <Route path="/success">
+//   <Success />
+// </Route> */}
+// {/* <Route path="/register">
+//   <Register />
+// </Route> */}
+//       {/* <Route path="/login">
+//   <Login />
+// </Route> */}

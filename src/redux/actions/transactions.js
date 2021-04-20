@@ -8,7 +8,7 @@ export const checkout = () => (dispatch) => {
       {
         arts: [
           {
-            id: "607de8cfc9fe3d1cf4106ed7",
+            id: "607e251cbae74b06c081105e",
             item: "T-Shirt",
             size: "XL",
             color: "white",

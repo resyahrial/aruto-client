@@ -9,3 +9,5 @@ export { default as SideLeft } from "./SideLeft";
 export { default as CartItemCard } from "./CartItemCard";
 export { default as MyArtCard } from "./MyArtCard";
 export { default as AddArt } from "./AddArt";
+export { default as GuardedRouteBefore } from "./GuardedRouteBefore";
+export { default as GuardedRouteAfter } from "./GuardedRouteAfter";
