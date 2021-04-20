@@ -3,13 +3,30 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { deleteCart } from "../redux/actions/carts";
 
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import DeleteIcon from "../assets/icons/delete.svg";
+
+const MySwal = withReactContent(Swal);
 
 export default function CartItemCard(props) {
   const dispatch = useDispatch();
 
   const deleteItem = (data) => {
-    dispatch(deleteCart(data));
+    MySwal.fire({
+      title: "Are you sure want to delete this item?",
+      text: "You won't be able to revert this.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Deleted!", "Your item on cart has been deleted.", "success");
+        dispatch(deleteCart(data));
+      }
+    });
   };
 
   const checkProps = () => {

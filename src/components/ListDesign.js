@@ -50,20 +50,18 @@ export default function ListDesign({ arts, category }) {
         {dataArts?.map((art) => {
           return (
             <div key={art._id} className="col-4 mb-4 team-area">
-              <div class="single-team">]
+              <div className="single-team">
+                ]
+                <img src={art.image_url} className="w-100 item-cart-2" alt="" />
                 <img
-                  src={art.image_url}
-                  className="w-100 item-cart-2"
+                  src="/images/heart.svg"
                   alt=""
+                  className="bottom-left-icon"
                 />
-        
-                 <img
-                    src="/images/heart.svg"
-                    alt=""
-                    className="bottom-left-icon"
-                  />
-                    
-                <div class="card-body body-style team-text"  onClick={() => detailArt(art._id)}>
+                <div
+                  className="card-body body-style team-text"
+                  onClick={() => detailArt(art._id)}
+                >
                   <h5 className="mb-0">{art.title}</h5>
                   <p className="mb-0">{art.likes} Likes</p>
                 </div>

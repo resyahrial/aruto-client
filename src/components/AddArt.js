@@ -5,6 +5,11 @@ import { addArt } from "../redux/actions/arts";
 import { fetchCategories } from "../redux/actions/categories";
 import { fetchUserById } from "../redux/actions/users";
 
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
+
 export default function AddArt() {
   const [data, setData] = useState({
     title: "",
@@ -51,13 +56,48 @@ export default function AddArt() {
 
   const saveChanges = (ev) => {
     ev.preventDefault();
+    if (!data.title) {
+      MySwal.fire("Please Fill The Form", "Please Check Title Form", "error");
+    } else if (!data.price) {
+      MySwal.fire("Please Fill The Form", "Please Check Price Form", "error");
+    } else if (!data.description) {
+      MySwal.fire(
+        "Please Fill The Form",
+        "Please Check Description Form",
+        "error"
+      );
+    } else if (!data.image_url) {
+      MySwal.fire("Please Fill The Form", "Please Check Image Form", "error");
+    } else if (!data.categories) {
+      MySwal.fire("Please Fill The Form", "Please Check Image Form", "error");
+    } else if (
+      data.title &&
+      data.price &&
+      data.description &&
+      data.image_url &&
+      data.categories
+    ) {
+      const formData = new FormData();
+      Object.keys(data).forEach((el) => {
+        formData.set(el, data[el]);
+      });
 
-    const formData = new FormData();
-    Object.keys(data).forEach((el) => {
-      formData.set(el, data[el]);
-    });
+      MySwal.fire({
+        toast: true,
+        position: "top",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        icon: "success",
+        title: "Successfully Add Art",
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
 
-    dispatch(addArt(formData));
+      dispatch(addArt(formData));
+    }
   };
 
   useEffect(() => {
@@ -87,7 +127,7 @@ export default function AddArt() {
           type="text"
           className="form-control"
           placeholder="Your Art Title"
-          required
+          // required
           name="title"
           value={data.title}
           onChange={onChange}
@@ -99,7 +139,7 @@ export default function AddArt() {
           type="number"
           className="form-control"
           placeholder="Your Art Price"
-          required
+          // required
           name="price"
           value={data.price}
           onChange={onChange}

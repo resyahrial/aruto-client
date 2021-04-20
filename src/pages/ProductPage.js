@@ -8,6 +8,11 @@ import { fetchArtsById } from "../redux/actions/arts";
 import { setToCart } from "../redux/actions/carts";
 import { useHistory } from "react-router-dom";
 
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
+
 export default function ProductPage() {
   const params = useParams();
   const dispatch = useDispatch();
@@ -44,21 +49,43 @@ export default function ProductPage() {
 
   const addToCart = () => {
     const { _id, title, image_url } = artById;
-    dispatch(
-      setToCart({
-        ...cart,
-        id: _id,
-        title,
-        image_url,
-        position: canvas
-          ? canvas._offset
-          : {
-              top: 0,
-              left: 0,
-            },
-      })
-    );
-    history.push("/cart");
+
+    if (!cart.quantity) {
+      MySwal.fire(
+        "Quantity can't be empty",
+        "Please Fill the quantity form",
+        "error"
+      );
+    } else {
+      MySwal.fire({
+        toast: true,
+        position: "top",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        icon: "success",
+        title: "Successfully Add To Cart",
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+      dispatch(
+        setToCart({
+          ...cart,
+          id: _id,
+          title,
+          image_url,
+          position: canvas
+            ? canvas._offset
+            : {
+                top: 0,
+                left: 0,
+              },
+        })
+      );
+      history.push("/cart");
+    }
   };
 
   useEffect(() => {

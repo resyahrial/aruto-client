@@ -12,6 +12,9 @@ export default function Navbar() {
   const location = useLocation();
   const dispatch = useDispatch();
   const userDataById = useSelector((state) => state.users.userDataById);
+  const carts = useSelector((state) => state.carts.data);
+
+  console.log(carts);
 
   useEffect(() => {
     if (localStorage?.access_token) {
@@ -66,12 +69,19 @@ export default function Navbar() {
         >
           <li className="nav-item">
             <Link className="nav-link" to="/cart">
-              <img
-                src="/icons/cart.svg"
-                alt="cart_icon"
-                width={32}
-                height={32}
-              />
+              <div>
+                {carts?.length > 0 ? (
+                  <span class="badge badge-secondary">{carts?.length}</span>
+                ) : (
+                  ""
+                )}
+                <img
+                  src="/icons/cart.svg"
+                  alt="cart_icon"
+                  width={32}
+                  height={32}
+                />
+              </div>
             </Link>
           </li>
           {!localStorage.access_token && (
