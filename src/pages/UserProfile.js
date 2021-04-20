@@ -20,9 +20,6 @@ export default function UserProfile() {
   const history = useHistory();
 
   const fav = useSelector((state) => state.arts.data);
-  // console.log(fav,'diluar com');
-
-  console.log(transactionHistory);
 
   useEffect(() => {
     dispatch(fetchTransactionHistory("Test"));
@@ -56,6 +53,7 @@ export default function UserProfile() {
   if (!localStorage.access_token) {
     history.push("/login");
   }
+  
   function viewLike(){
     let allLike=[]
     fav?.forEach((findItem)=>{
