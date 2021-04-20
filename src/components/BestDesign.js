@@ -2,20 +2,31 @@ import React, { useState, useEffect } from "react";
 import "../assets/style/style.css";
 import { useHistory } from "react-router-dom";
 export default function BestDesign({arts}) {
-  const history = useHistory()
+  const history = useHistory()  
+  const { data, isLoading, error } = arts
   const [bestArts, setBestArts] = useState([])
   useEffect(() => {
-    if(arts) {
-      const dataArts = [...arts]
+    if(data) {
+      const dataArts = [...data]
       dataArts.sort(function(a,b) {
         return b.likes - a.likes
       })
       setBestArts(dataArts)
     }
-  }, [arts])
+  }, [data])
   function detailArt(id) {
     history.push('/product/' + id)
   }
+  if(isLoading) {
+    return(
+      <div class="text-center">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    )
+  }
+  if(error) history.push('*')
   return (
     <div className="mt-content">
       <h3 className="font-weight-bold">

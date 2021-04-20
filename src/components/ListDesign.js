@@ -3,10 +3,11 @@ import { useHistory } from "react-router-dom";
 import "../assets/style/style.css";
 export default function ListDesign({ arts, category }) {
   const history = useHistory()
+  const { data, isLoading, error } = arts
   const [dataArts, setDataArts] = useState([])
   useEffect(() => {
-    if(arts){
-      let tempArts = [...arts]
+    if(data){
+      let tempArts = [...data]
       if(!category) {
         setDataArts(tempArts)
       }else {
@@ -27,10 +28,20 @@ export default function ListDesign({ arts, category }) {
         setDataArts(ArtsData)
       }
     }    
-  }, [category, arts])
+  }, [category, data])
   function detailArt(id) {
     history.push('/product/' + id)
   }
+  if(isLoading) {
+    return(
+      <div class="text-center">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    )
+  }
+  if(error) history.push('*')
   return (
     <div className=" mt-5">
       <div className="row px-5">

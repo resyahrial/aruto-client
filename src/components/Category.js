@@ -1,8 +1,21 @@
 import React from "react";
 import "../assets/style/style.css";
+import { useHistory } from "react-router-dom";
 
 
-export default function Category({categories, setCategory}) {
+export default function Category({dataCategories, setCategory}) {
+  const { categories, isLoading, error } = dataCategories
+  const history = useHistory()
+  if(isLoading) {
+    return(
+      <div class="text-center">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    )
+  }
+  if(error) history.push('*')
   return (
     <div className="mt-content">
       <h3 className="font-weight-bold">Categories</h3>
