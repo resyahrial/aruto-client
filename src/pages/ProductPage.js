@@ -6,7 +6,6 @@ import { useParams, useHistory } from "react-router-dom";
 import tShirt from "../assets/images/background_tshirt.png";
 import { fetchArtsById } from "../redux/actions/arts";
 import { setToCart } from "../redux/actions/carts";
-
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
@@ -111,17 +110,6 @@ export default function ProductPage() {
       setIsCanvasLoaded(true);
     }
   }, [cart.item]);
-
-  // if (isLoading) {
-  //   return (
-  //     <div class="text-center">
-  //       <div class="spinner-border" role="status">
-  //         <span class="sr-only">Loading...</span>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-  // if (error) history.push("*");
 
   return (
     <>
