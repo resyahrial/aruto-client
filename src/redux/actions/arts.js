@@ -28,8 +28,6 @@ export function fetchArt() {
 }
 
 export const addFavorite = (payload) => (dispatch) => {
-  // console.log(payload, "payload fav");
-  // dispatch({ type: "arts/loading", payload: true });
   axios
     .patch(`/arts/${payload}/like`, null, {
       headers: {
@@ -71,7 +69,6 @@ export const addArt = (payload) => (dispatch) => {
 };
 
 export const deleteArt = (payload) => (dispatch) => {
-  // console.log(payload);
   dispatch({ type: "arts/loading", payload: true });
   axios
     .delete(`/arts/${payload}`, {
@@ -93,4 +90,8 @@ export const deleteArt = (payload) => (dispatch) => {
     .then(({ data }) => dispatch({ type: "users/fetchById", payload: data }))
     .catch((err) => dispatch({ type: "arts/error", payload: err }))
     .finally((_) => dispatch({ type: "arts/loading", payload: false }));
+};
+
+export const searchKeyword = (payload) => (dispatch) => {
+  dispatch({ type: "arts/search", payload });
 };

@@ -17,6 +17,14 @@ export default function Home() {
     dispatch(fetchArt());
   }, []);
 
+  if (arts.search !== "") {
+    return (
+      <div>
+        <ListDesign arts={arts} category={category} />
+      </div>
+    );
+  }
+
   return (
     <div>
       <Banner />

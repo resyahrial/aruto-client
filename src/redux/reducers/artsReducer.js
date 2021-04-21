@@ -2,6 +2,7 @@ const initialState = {
   data: [],
   dataById: {},
   arts: [],
+  search: "",
   isLoading: false,
   error: null,
 };
@@ -16,6 +17,8 @@ const reducer = (state = initialState, { type, payload }) => {
       return { ...state, error: payload };
     case "arts/fetchById":
       return { ...state, dataById: payload };
+    case "arts/search":
+      return { ...state, search: payload };
     default:
       return state;
   }

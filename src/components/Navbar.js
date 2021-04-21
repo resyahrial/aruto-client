@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { fetchUserById } from "../redux/actions/users";
 import { clearCart } from "../redux/actions/carts";
+import { searchKeyword } from "../redux/actions/arts";
 
 const showNavbarPath = ["/", "/profile", "/cart"];
 
@@ -36,6 +37,14 @@ export default function Navbar() {
     return false;
   }
 
+  const onChange = (ev) => {
+    if (location.pathname !== "/") {
+      dispatch(searchKeyword(""));
+    } else {
+      dispatch(searchKeyword(ev.target.value.toLowerCase()));
+    }
+  };
+
   return (
     <nav
       className="navbar navbar-expand-lg navbar-light"
@@ -46,25 +55,28 @@ export default function Navbar() {
         <Link className="navbar-brand" to="/">
           <img src="/images/LogoImage.png" alt="logo" />
         </Link>
-        <form className="d-flex position-relative" style={{ width: "40%" }}>
-          <input
-            className="form-control pl-4 text-sm"
-            type="search"
-            placeholder="Apa yang ingin anda cari ?"
-            style={{ fontSize: "0.8rem", height: 44 }}
-          />
-          <div
-            className="position-absolute d-flex align-items-center pr-4"
-            style={{ right: 0, top: 0, bottom: 0 }}
-          >
-            <img
-              src="/images/search.svg"
-              alt="search_icon"
-              width={16}
-              height={16}
+        {location.pathname === "/" && (
+          <form className="d-flex position-relative" style={{ width: "40%" }}>
+            <input
+              className="form-control pl-5 text-sm"
+              type="search"
+              placeholder="Apa yang ingin anda cari ?"
+              style={{ fontSize: "0.8rem", height: 44 }}
+              onChange={onChange}
             />
-          </div>
-        </form>
+            <div
+              className="position-absolute d-flex align-items-center pr-4"
+              style={{ left: 20, top: 0, bottom: 0 }}
+            >
+              <img
+                src="/images/search.svg"
+                alt="search_icon"
+                width={16}
+                height={16}
+              />
+            </div>
+          </form>
+        )}
         <ul
           className="navbar-nav align-items-center justify-content-between"
           style={{ width: `${localStorage.access_token ? "20%" : "30%"}` }}

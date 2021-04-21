@@ -36,7 +36,6 @@ export function fetchUser() {
 }
 
 export const login = (payload) => (dispatch) => {
-  console.log(payload);
   dispatch({ type: "users/isLoading", payload: true });
   axios
     .post(`/login`, payload)

@@ -71,7 +71,6 @@ export default function UserProfile() {
         allLike.push(findItem);
       }
     });
-    // console.log(allLike);
     setMyLike(allLike);
   }
 
@@ -89,8 +88,6 @@ export default function UserProfile() {
           <div className="row">
             <div className="col-lg-3 pr-3">
               <div className="border rounded-lg">
-                {/* {JSON.stringify(isLoading)} */}
-                {/* profile */}
                 <div className="d-flex align-items-center py-3 px-3">
                   <img
                     src={`https://i.pravatar.cc/150?u=${userDataById?.data?.full_name}`}

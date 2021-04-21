@@ -12,7 +12,7 @@ export default function ListDesign({ arts, category }) {
     max: 6,
   });
   const history = useHistory();
-  const { data, isLoading, error } = arts;
+  const { data, isLoading, error, search } = arts;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -66,32 +66,43 @@ export default function ListDesign({ arts, category }) {
   return (
     <div className="mt-5">
       <div className="row px-5">
-        {dataArts?.slice(range.min, range.max).map((art) => {
-          return (
-            <div
-              key={art._id}
-              className="col-4 mb-4 team-area"
-              style={{ cursor: "pointer" }}
-            >
-              <div className="single-team">
-                <img src={art.image_url} className="w-100 item-cart-2" alt="" />
-               <img
-                  onClick={() => addFav(art._id)}
-                  src={art.likes?.find((e)=>e===localStorage._id) ? "/images/heart-red.svg" : "/images/heart.svg"}
-                  alt="arts"
-                  className="bottom-left-icon"
-                />
-                <div
-                  className="card-body body-style team-text"
-                  onClick={() => detailArt(art._id)}
-                >
-                  <h5 className="mb-0">{art.title}</h5>
-                  <p className="mb-0">{art.likes.length} Likes</p>
+        {dataArts
+          ?.filter((art) => art.title.toLowerCase().includes(search))
+          .slice(range.min, range.max)
+          .map((art) => {
+            return (
+              <div
+                key={art._id}
+                className="col-4 mb-4 team-area"
+                style={{ cursor: "pointer" }}
+              >
+                <div className="single-team">
+                  <img
+                    src={art.image_url}
+                    className="w-100 item-cart-2"
+                    alt=""
+                  />
+                  <img
+                    onClick={() => addFav(art._id)}
+                    src={
+                      art.likes?.find((e) => e === localStorage._id)
+                        ? "/images/heart-red.svg"
+                        : "/images/heart.svg"
+                    }
+                    alt="arts"
+                    className="bottom-left-icon"
+                  />
+                  <div
+                    className="card-body body-style team-text"
+                    onClick={() => detailArt(art._id)}
+                  >
+                    <h5 className="mb-0">{art.title}</h5>
+                    <p className="mb-0">{art.likes.length} Likes</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
 
       <nav aria-label="Page navigation">
