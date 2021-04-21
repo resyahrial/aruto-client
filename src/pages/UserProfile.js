@@ -90,7 +90,7 @@ export default function UserProfile() {
                 {/* profile */}
                 <div className="d-flex align-items-center py-3 px-3">
                   <img
-                    src={`https://ui-avatars.com/api/?name=${userDataById?.data?.full_name}`}
+                    src={`https://i.pravatar.cc/150?u=${userDataById?.data?.full_name}`}
                     alt="user-pic"
                     className="user-pic"
                     style={{ width: 48, height: 48 }}
@@ -113,25 +113,25 @@ export default function UserProfile() {
               <div className="col-lg py-3 border-bottom mb-3">
                 <nav className="navbar navbar-expand-lg navbar-light">
                   <ul className="navbar-nav mr-auto">
-                    <li className="nav-item active">
+                    <li className={`nav-item ${myWorks ? "active" : ""}`}>
                       <a
                         onClick={(e) => viewMyWorks(e)}
                         className="nav-link"
                         href="true"
                       >
-                        My Works <span className="sr-only">(current)</span>
+                        My Works
                       </a>
                     </li>
-                    <li className="nav-item">
+                    <li className={`nav-item ${myPurchases ? "active" : ""}`}>
                       <a
                         onClick={(e) => viewMyPurchases(e)}
                         className="nav-link"
                         href="true"
                       >
-                        My Purchase
+                        My Purchases
                       </a>
                     </li>
-                    <li className="nav-item">
+                    <li className={`nav-item ${myFavorites ? "active" : ""}`}>
                       <a
                         onClick={(e) => viewMyFavorites(e)}
                         className="nav-link"

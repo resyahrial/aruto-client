@@ -361,6 +361,38 @@ input::-webkit-input-placeholder {
   object-position: center;
 }
 
+.btn-del-art {
+  width: 40px;
+  cursor: pointer;
+}
+
+.container-image {
+  border-radius: 50px;
+  transform-origin: 50 50;
+  transition: transform 0.25s, visibility 0.25s ease-in;
+}
+
+.container-image:hover {
+  border-radius: 50px;
+  transform: scale(1.1);
+}
+
+.position-btn-del-art {
+  position: absolute;
+  padding: 0 35px 100px 0;
+  height: 150px;
+  width: 100%;
+  opacity: 0;
+}
+
+.position-btn-del-art:hover {
+  position: absolute;
+  padding: 0 35px 100px 0;
+  height: 150px;
+  width: 100%;
+  opacity: 1;
+}
+
 /*********************** PRODUCT PAGE ***********************/
 
 .detail-button {

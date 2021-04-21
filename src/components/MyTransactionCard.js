@@ -9,7 +9,11 @@ export default function MyTransactionCart({ history }) {
         <th scope="row">{history._id}</th>
         <td>
           {history.arts.map((transaction) => {
-            return `${transaction.item} ${transaction.color} x ${transaction.quantity} `;
+            return (
+              <p>
+                {transaction.item} {transaction.color} x {transaction.quantity}
+              </p>
+            );
           })}
         </td>
         <td>{history.address}</td>

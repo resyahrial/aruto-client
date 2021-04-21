@@ -111,7 +111,7 @@ export default function Navbar() {
               <li className="nav-item mr-2">
                 <Link to="/profile">
                   <img
-                    src={`https://ui-avatars.com/api/?name=${userDataById?.data?.full_name}`}
+                    src={`https://i.pravatar.cc/150?u=${userDataById?.data?.full_name}`}
                     alt="user-pic"
                     className="user-pic"
                     style={{ width: 40, height: 40 }}
