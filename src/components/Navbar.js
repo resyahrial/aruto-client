@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchUserById } from "../redux/actions/users";
+import { clearCart } from "../redux/actions/carts";
 
 const showNavbarPath = ["/", "/profile", "/cart"];
 
@@ -11,7 +12,7 @@ export default function Navbar() {
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
-  const userDataById = useSelector((state) => state.users.userDataById);
+  // const userDataById = useSelector((state) => state.users.userDataById);
   const carts = useSelector((state) => state.carts.data);
 
   useEffect(() => {
@@ -21,6 +22,7 @@ export default function Navbar() {
   }, [dispatch]);
 
   const Logout = (e) => {
+    dispatch(clearCart());
     localStorage.removeItem("access_token");
     localStorage.removeItem("_id");
     localStorage.removeItem("fullname");
@@ -122,7 +124,7 @@ export default function Navbar() {
               <li className="nav-item mr-2">
                 <Link to="/profile">
                   <img
-                    src={`https://i.pravatar.cc/150?u=${userDataById?.data?.full_name}`}
+                    src={`https://i.pravatar.cc/150?u=${localStorage.fullname}`}
                     alt="user-pic"
                     className="user-pic"
                     style={{ width: 40, height: 40 }}

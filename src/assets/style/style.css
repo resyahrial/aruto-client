@@ -11,6 +11,8 @@
   -o-background-size: 100% 100%;
   background-size: 100% 100%;
   height: 100vh;
+  object-fit: cover;
+  object-position: center;
 }
 .input-div {
   position: relative;
@@ -294,7 +296,10 @@ input::-webkit-input-placeholder {
 }
 .height-banner {
   height: 30vw;
+  object-fit: contain;
+  object-position: center;
 }
+
 /* End Home */
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   .height-icon {

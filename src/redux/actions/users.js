@@ -1,4 +1,8 @@
 import axios from "../axios";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 function setUsers(payload) {
   return { type: "users/setUsers", payload };
@@ -41,7 +45,10 @@ export const login = (payload) => (dispatch) => {
       localStorage.setItem("_id", data._id);
       localStorage.setItem("fullname", data.full_name);
     })
-    .catch((err) => dispatch({ type: "users/error", payload: err }))
+    .catch((err) => {
+      dispatch({ type: "users/error", payload: err });
+      MySwal.fire("Invalid Email / Password", "Please try again!", "error");
+    })
     .finally(() => {
       dispatch({ type: "users/isLoading", payload: false });
     });
