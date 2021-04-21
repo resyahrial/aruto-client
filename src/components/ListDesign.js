@@ -75,9 +75,9 @@ export default function ListDesign({ arts, category }) {
             >
               <div className="single-team">
                 <img src={art.image_url} className="w-100 item-cart-2" alt="" />
-                <img
+               <img
                   onClick={() => addFav(art._id)}
-                  src="/images/heart.svg"
+                  src={art.likes?.find((e)=>e===localStorage._id) ? "/images/heart-red.svg" : "/images/heart.svg"}
                   alt="arts"
                   className="bottom-left-icon"
                 />

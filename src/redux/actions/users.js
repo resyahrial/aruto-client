@@ -39,6 +39,7 @@ export const login = (payload) => (dispatch) => {
     .then(({ data }) => {
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("_id", data._id);
+      localStorage.setItem("fullname", data.full_name);
     })
     .catch((err) => dispatch({ type: "users/error", payload: err }))
     .finally(() => {

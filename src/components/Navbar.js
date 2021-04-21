@@ -22,6 +22,8 @@ export default function Navbar() {
 
   const Logout = (e) => {
     localStorage.removeItem("access_token");
+    localStorage.removeItem("_id");
+    localStorage.removeItem("fullname");
     history.push("/");
   };
 

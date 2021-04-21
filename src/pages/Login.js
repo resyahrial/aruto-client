@@ -41,7 +41,7 @@ export default function Login() {
     if (!isLoading && localStorage.access_token){
       history.push("/");
       Swal.fire(
-        'Login Success',
+        `Hello Welcome Back ${localStorage.fullname}`,
         '',
         'success'
       )
