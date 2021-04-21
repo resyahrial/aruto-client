@@ -28,11 +28,14 @@ export default function UserProfile() {
   // console.log(fav);
 
   useEffect(() => {
-    dispatch(fetchTransactionHistory("Test"));
+    dispatch(fetchTransactionHistory());
     dispatch(fetchUserById(localStorage.access_token));
     dispatch(fetchArt());
+  }, []);
+
+  useEffect(() => {
     viewLike();
-  }, [dispatch]);
+  }, [fav]);
 
   const viewMyWorks = (e) => {
     e.preventDefault();
