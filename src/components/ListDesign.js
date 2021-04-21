@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
+
 import "../assets/style/style.css";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchArt, addFavorite } from "../redux/actions/arts";
+import { useDispatch } from "react-redux";
+import { addFavorite } from "../redux/actions/arts";
+
 export default function ListDesign({ arts, category }) {
+  const [dataArts, setDataArts] = useState([]);
+  const [range, setRange] = useState({
+    min: 0,
+    max: 6,
+  });
   const history = useHistory();
   const { data, isLoading, error } = arts;
-  const [dataArts, setDataArts] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -34,18 +40,19 @@ export default function ListDesign({ arts, category }) {
       }
     }
   }, [category, data]);
+
   function detailArt(id) {
     history.push("/product/" + id);
   }
 
   const addFav = (id) => {
-    // console.log(id,'id favv');
     if (localStorage.access_token) {
       dispatch(addFavorite(id));
     } else {
       history.push("/Login");
     }
   };
+
   if (isLoading) {
     return (
       <div className="text-center">
@@ -57,12 +64,15 @@ export default function ListDesign({ arts, category }) {
   }
   if (error) history.push("*");
   return (
-    <div className=" mt-5">
+    <div className="mt-5">
       <div className="row px-5">
-        {/* {console.log(dataArts, "art")} */}
-        {dataArts?.map((art) => {
+        {dataArts?.slice(range.min, range.max).map((art) => {
           return (
-            <div key={art._id} className="col-4 mb-4 team-area">
+            <div
+              key={art._id}
+              className="col-4 mb-4 team-area"
+              style={{ cursor: "pointer" }}
+            >
               <div className="single-team">
                 <img src={art.image_url} className="w-100 item-cart-2" alt="" />
                 <img
@@ -83,11 +93,39 @@ export default function ListDesign({ arts, category }) {
           );
         })}
       </div>
-      <div className="col-3 mx-auto mt-5">
-        <button type="submit" className="btn btn-theme-blue text-white mt-5">
-          <p className="m-0">Show All</p>
-        </button>{" "}
-      </div>
+
+      <nav aria-label="Page navigation">
+        <ul className="pagination justify-content-center">
+          {range.min !== 0 && (
+            <li className="page-item">
+              <Link
+                className="page-link text-center text-primary"
+                to="#"
+                style={{ width: 100 }}
+                onClick={() =>
+                  setRange({ ...range, min: range.min - 6, max: range.max - 6 })
+                }
+              >
+                Previous
+              </Link>
+            </li>
+          )}
+          {range.max < dataArts?.length && (
+            <li className="page-item">
+              <Link
+                className="page-link text-center text-primary"
+                to="#"
+                style={{ width: 100 }}
+                onClick={() =>
+                  setRange({ ...range, min: range.min + 6, max: range.max + 6 })
+                }
+              >
+                Next
+              </Link>
+            </li>
+          )}
+        </ul>
+      </nav>
     </div>
   );
 }

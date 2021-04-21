@@ -14,8 +14,6 @@ export default function Navbar() {
   const userDataById = useSelector((state) => state.users.userDataById);
   const carts = useSelector((state) => state.carts.data);
 
-  // console.log(carts);
-
   useEffect(() => {
     if (localStorage?.access_token) {
       dispatch(fetchUserById(localStorage.access_token));
@@ -69,9 +67,20 @@ export default function Navbar() {
         >
           <li className="nav-item">
             <Link className="nav-link" to="/cart">
-              <div>
+              <div className="position-relative">
                 {carts?.length > 0 ? (
-                  <span className="badge badge-secondary">{carts?.length}</span>
+                  <span
+                    className="badge badge-secondary d-flex justify-content-center align-items-center rounded-circle position-absolute"
+                    style={{
+                      top: -10,
+                      right: -10,
+                      fontSize: "0.6rem",
+                      width: 16,
+                      height: 16,
+                    }}
+                  >
+                    {carts?.length}
+                  </span>
                 ) : (
                   ""
                 )}

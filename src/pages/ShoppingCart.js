@@ -71,16 +71,6 @@ export default function ShoppingCart() {
     setSubTotal(carts.reduce((acc, cart) => acc + cart.totalPrice, 0));
   }, [carts]);
 
-  if (isLoading) {
-    return (
-      <div className="text-center">
-        <div className="spinner-border" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <>
       <section id="shopping-cart">
@@ -188,7 +178,13 @@ export default function ShoppingCart() {
                     onClick={checkoutCarts}
                     disabled={carts.length === 0 || payload.address === ""}
                   >
-                    Checkout
+                    {isLoading ? (
+                      <div className="spinner-border" role="status">
+                        <span className="sr-only">Loading...</span>
+                      </div>
+                    ) : (
+                      "Checkout"
+                    )}
                   </button>
                 )}
                 {data.transactionToken && (
@@ -197,7 +193,13 @@ export default function ShoppingCart() {
                     className="btn btn-primary btn-add btn-pay"
                     onClick={payHandler}
                   >
-                    Pay
+                    {isLoading ? (
+                      <div className="spinner-border" role="status">
+                        <span className="sr-only">Loading...</span>
+                      </div>
+                    ) : (
+                      "Pay"
+                    )}
                   </button>
                 )}
               </div>

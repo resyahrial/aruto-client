@@ -1,22 +1,27 @@
 import React, { useState, useEffect } from "react";
-import "../assets/style/style.css";
 import { useHistory } from "react-router-dom";
+
+import "../assets/style/style.css";
+
 export default function BestDesign({ arts }) {
   const history = useHistory();
-  const { data, isLoading, error } = arts;
+  const { data, isLoading } = arts;
   const [bestArts, setBestArts] = useState([]);
+
   useEffect(() => {
     if (data) {
       const dataArts = [...data];
       dataArts.sort(function (a, b) {
-        return b.likes - a.likes;
+        return b.likes.length - a.likes.length;
       });
       setBestArts(dataArts);
     }
-  }, [data]);
+  }, [arts]);
+
   function detailArt(id) {
     history.push("/product/" + id);
   }
+
   if (isLoading) {
     return (
       <div className="text-center">
@@ -26,7 +31,7 @@ export default function BestDesign({ arts }) {
       </div>
     );
   }
-  if (error) history.push("*");
+
   return (
     <div className="mt-content">
       <h3 className="font-weight-bold">
@@ -41,7 +46,8 @@ export default function BestDesign({ arts }) {
                 onClick={() => detailArt(art._id)}
                 src={art.image_url}
                 className="w-100 h-80"
-                alt=""
+                alt={`best ${index}`}
+                style={{ cursor: "pointer" }}
               />
             </div>
           ) : (
@@ -57,7 +63,8 @@ export default function BestDesign({ arts }) {
                     onClick={() => detailArt(art._id)}
                     src={art.image_url}
                     className="w-100 height-35"
-                    alt=""
+                    alt={`best ${index}`}
+                    style={{ cursor: "pointer" }}
                   />
                 </div>
               ) : (
