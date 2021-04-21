@@ -45,7 +45,7 @@ export default function BestDesign({ arts }) {
               <img
                 onClick={() => detailArt(art._id)}
                 src={art.image_url}
-                className="w-100 h-80"
+                className="w-100 h-80 best-img"
                 alt={`best ${index}`}
                 style={{ cursor: "pointer" }}
               />
@@ -62,7 +62,7 @@ export default function BestDesign({ arts }) {
                   <img
                     onClick={() => detailArt(art._id)}
                     src={art.image_url}
-                    className="w-100 height-35"
+                    className="w-100 height-35 best-img"
                     alt={`best ${index}`}
                     style={{ cursor: "pointer" }}
                   />
