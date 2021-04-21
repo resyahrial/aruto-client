@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import "../assets/style/style.css";
 import { useDispatch, useSelector } from "react-redux";
-import { addFav, addFavorite } from "../redux/actions/arts";
+import { fetchArt, addFavorite } from "../redux/actions/arts";
 export default function ListDesign({ arts, category }) {
   const history = useHistory();
   const { data, isLoading, error } = arts;

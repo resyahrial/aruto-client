@@ -28,7 +28,7 @@ export function fetchArt() {
 }
 
 export const addFavorite = (payload) => (dispatch) => {
-  console.log(payload, "payload fav");
+  // console.log(payload, "payload fav");
   // dispatch({ type: "arts/loading", payload: true });
   axios
     .patch(`/arts/${payload}/like`, null, {
@@ -38,7 +38,9 @@ export const addFavorite = (payload) => (dispatch) => {
     })
     .then((data) => {
       console.log("berhasil");
+      return axios("/arts");
     })
+    .then(({ data }) => dispatch({ type: "arts/fetch", payload: data }))
     .catch((err) => console.log(err.response, "err"));
   // .finally((_) => dispatch({ type: "arts/loading", payload: false }));
 };

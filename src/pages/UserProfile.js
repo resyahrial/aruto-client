@@ -39,7 +39,6 @@ export default function UserProfile() {
     setMyWorks(true);
     setMyPurchase(false);
     setMyFavorites(false);
-    viewLike();
   };
 
   const viewMyPurchases = (e) => {
@@ -47,7 +46,6 @@ export default function UserProfile() {
     setMyWorks(false);
     setMyPurchase(true);
     setMyFavorites(false);
-    viewLike();
   };
 
   const viewMyFavorites = (e) => {

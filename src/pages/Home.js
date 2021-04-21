@@ -21,7 +21,7 @@ export default function Home() {
   useEffect(() => {
     dispatch(fetchCategories());
     dispatch(fetchArt());
-  }, [dispatch]);
+  }, []);
 
   return (
     <div>
