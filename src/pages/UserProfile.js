@@ -149,7 +149,8 @@ export default function UserProfile() {
                     userDataById?.data?.arts.length === 0 ? (
                       <>
                         <div className="col-lg text-center pt-5">
-                          <h3>There's No Art to Show</h3>
+                        <img src="/images/empty.svg" className="w-25"/>
+                          <h4 className="mt-5">There's No Art to Show</h4>
                         </div>
                       </>
                     ) : (
@@ -165,7 +166,8 @@ export default function UserProfile() {
                     transactionHistory.length === 0 ? (
                       <>
                         <div className="col-lg text-center pt-5">
-                          <h3>There's No Purchase History to Show</h3>
+                        <img src="/images/empty.svg" className="w-25"/>
+                          <h4 className="mt-5">There's No Purchase History to Show</h4>
                         </div>
                       </>
                     ) : (
@@ -200,7 +202,8 @@ export default function UserProfile() {
                     myLike?.length === 0 ? (
                       <>
                         <div className="col-lg text-center pt-5">
-                          <h3>There's No Favorite to show</h3>
+                        <img src="/images/empty.svg" className="w-25"/>
+                          <h4 className="mt-5">There's No Favorite to show</h4>
                         </div>
                       </>
                     ) : (
