@@ -27,21 +27,21 @@ export function fetchArt() {
   };
 }
 
-export const addFavorite=(payload)=>(dispatch)=>{
-  console.log(payload,'payload fav');
-  dispatch({ type: "arts/loading", payload: true });
+export const addFavorite = (payload) => (dispatch) => {
+  console.log(payload, "payload fav");
+  // dispatch({ type: "arts/loading", payload: true });
   axios
-  .patch(`/arts/${payload}/like`, null, {
-    headers: {
-      access_token: localStorage.access_token
-    }
-  })
-    .then((data)=>{
-      console.log('berhasil');
+    .patch(`/arts/${payload}/like`, null, {
+      headers: {
+        access_token: localStorage.access_token,
+      },
     })
-    .catch((err) => console.log(err.response,'err'))
-    .finally((_) => dispatch({ type: "arts/loading", payload: false }));
-}
+    .then((data) => {
+      console.log("berhasil");
+    })
+    .catch((err) => console.log(err.response, "err"));
+  // .finally((_) => dispatch({ type: "arts/loading", payload: false }));
+};
 
 export const addArt = (payload) => (dispatch) => {
   dispatch({ type: "arts/loading", payload: true });

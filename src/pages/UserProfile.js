@@ -3,7 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { fetchUserById } from "../redux/actions/users";
 import { fetchTransactionHistory } from "../redux/actions/transactions";
-import { MyArtCard, AddArt, MyTransactionCard } from "../components";
+import {
+  MyArtCard,
+  AddArt,
+  MyTransactionCard,
+  MyFavArtCard,
+} from "../components";
 import { useHistory } from "react-router-dom";
 import { fetchArt } from "../redux/actions/arts";
 
@@ -20,12 +25,13 @@ export default function UserProfile() {
   const history = useHistory();
 
   const fav = useSelector((state) => state.arts.data);
+  // console.log(fav);
 
   useEffect(() => {
     dispatch(fetchTransactionHistory("Test"));
     dispatch(fetchUserById(localStorage.access_token));
     dispatch(fetchArt());
-    viewLike()
+    viewLike();
   }, [dispatch]);
 
   const viewMyWorks = (e) => {
@@ -33,6 +39,7 @@ export default function UserProfile() {
     setMyWorks(true);
     setMyPurchase(false);
     setMyFavorites(false);
+    viewLike();
   };
 
   const viewMyPurchases = (e) => {
@@ -40,6 +47,7 @@ export default function UserProfile() {
     setMyWorks(false);
     setMyPurchase(true);
     setMyFavorites(false);
+    viewLike();
   };
 
   const viewMyFavorites = (e) => {
@@ -47,22 +55,23 @@ export default function UserProfile() {
     setMyWorks(false);
     setMyPurchase(false);
     setMyFavorites(true);
-    viewLike()
+    viewLike();
   };
 
   if (!localStorage.access_token) {
     history.push("/login");
   }
-  
-  function viewLike(){
-    let allLike=[]
-    fav?.forEach((findItem)=>{
-     let isLike= findItem.likes.find(e=>e===localStorage._id)
-     if(isLike){
-       allLike.push(findItem)
-     }
-    })
-    setMyLike(allLike)
+
+  function viewLike() {
+    let allLike = [];
+    fav?.forEach((findItem) => {
+      let isLike = findItem.likes.find((e) => e === localStorage._id);
+      if (isLike) {
+        allLike.push(findItem);
+      }
+    });
+    // console.log(allLike);
+    setMyLike(allLike);
   }
 
   return (
@@ -198,7 +207,7 @@ export default function UserProfile() {
                       </>
                     ) : (
                       myLike?.map((art) => {
-                        return <MyArtCard key={art._id} art={art} />;
+                        return <MyFavArtCard key={art._id} art={art} />;
                       })
                     )
                   ) : (

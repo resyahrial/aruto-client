@@ -71,14 +71,14 @@ export default function ShoppingCart() {
     setSubTotal(carts.reduce((acc, cart) => acc + cart.totalPrice, 0));
   }, [carts]);
 
-  if(isLoading) {
-    return(
-      <div class="text-center">
-        <div class="spinner-border" role="status">
-          <span class="sr-only">Loading...</span>
+  if (isLoading) {
+    return (
+      <div className="text-center">
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Loading...</span>
         </div>
       </div>
-    )
+    );
   }
 
   return (
