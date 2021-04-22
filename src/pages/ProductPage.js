@@ -35,7 +35,9 @@ export default function ProductPage() {
       setCart({
         ...cart,
         [name]: value,
-        totalPrice: name === "quantity" ? value * artById.price : artById.price,
+        totalPrice:
+          (name === "quantity" ? value * artById.price : artById.price) +
+          (cart.item === "Artboard" ? 50000 : 80000),
       });
     } else {
       setCart({
@@ -118,10 +120,6 @@ export default function ProductPage() {
       setIsCanvasLoaded(true);
     }
   }, [cart.item]);
-
-  const addToCartChecker = () => {
-    return !!localStorage.access_token;
-  };
 
   return (
     <>
