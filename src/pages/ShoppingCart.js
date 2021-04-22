@@ -39,19 +39,7 @@ export default function ShoppingCart() {
   };
 
   const payHandler = () => {
-    window.snap.pay(data.transactionToken, {
-      onSuccess: function (result) {
-        dispatch(paid(data.transactionId));
-        dispatch(clearCart());
-        if (!isLoading) history.push("/success");
-      },
-      onPending: function (result) {
-        console.log("Payment pending", result);
-      },
-      onError: function () {
-        console.log("Payment error");
-      },
-    });
+    window.snap.pay(data.transactionToken, {});
   };
 
   useEffect(() => {
@@ -120,14 +108,6 @@ export default function ShoppingCart() {
                     }
                     value={payload.address}
                   />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-4">
-                  <p>Trans-ID</p>
-                </div>
-                <div className="col-8">
-                  <p className="text-right">{data?.transactionId || "-"}</p>
                 </div>
               </div>
               <div className="row">
