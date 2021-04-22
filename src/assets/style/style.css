@@ -126,8 +126,8 @@
   background-clip: padding-box;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
-  box-shadow: 0px 7px 3px rgba(241, 238, 255, 0.25);
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  /* box-shadow: 0px 7px 3px rgba(241, 238, 255, 0.25);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; */
   border: 1px solid rgba(235, 231, 255, 0.7);
 }
 input::-webkit-input-placeholder {
@@ -295,8 +295,8 @@ input::-webkit-input-placeholder {
   opacity: 0;
 }
 .height-banner {
-  height: 30vw;
-  object-fit: contain;
+  height: 40vw;
+  object-fit: cover;
   object-position: center;
 }
 

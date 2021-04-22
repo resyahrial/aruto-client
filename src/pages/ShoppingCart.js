@@ -95,8 +95,9 @@ export default function ShoppingCart() {
                   </div>
                 </div>
                 {carts?.length === 0 ? (
-                  <div>
-                    <h3 className="text-center py-5">There's No Item to Buy</h3>
+                  <div className="d-flex flex-column mt-3 align-items-center">
+                    <img src="/images/empty.svg" className="w-25"/>
+                    <h4 className="text-center py-5">There's No Item to Buy</h4>
                   </div>
                 ) : (
                   carts?.map((cart, i) => {
