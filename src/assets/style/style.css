@@ -145,7 +145,7 @@ input::-webkit-input-placeholder {
 /* Navbar */
 /* Home */
 .mt-content {
-  margin-top: 10rem;
+  margin-top: 5rem;
 }
 .center-absolute {
   top: 40%;
@@ -300,6 +300,11 @@ input::-webkit-input-placeholder {
   object-position: center;
 }
 
+.best-img-fit {
+  object-fit: cover;
+  object-position: center;
+}
+
 /* End Home */
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   .height-icon {
@@ -396,6 +401,13 @@ input::-webkit-input-placeholder {
   height: 150px;
   width: 100%;
   opacity: 1;
+}
+
+.img-trans {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  object-position: center;
 }
 
 /*********************** PRODUCT PAGE ***********************/

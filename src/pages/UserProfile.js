@@ -22,6 +22,8 @@ export default function UserProfile() {
   const [myPurchases, setMyPurchase] = useState(false);
   const [myFavorites, setMyFavorites] = useState(false);
   const [myLike, setMyLike] = useState([]);
+  const [myPurchaseList, setMyPurchaseList] = useState([]);
+  const arts = useSelector((state) => state.arts.data);
   const history = useHistory();
 
   const fav = useSelector((state) => state.arts.data);
@@ -35,7 +37,8 @@ export default function UserProfile() {
 
   useEffect(() => {
     viewLike();
-  }, [fav]);
+    artTransactionFinder();
+  }, [fav, transactionHistory]);
 
   const viewMyWorks = (e) => {
     e.preventDefault();
@@ -49,6 +52,7 @@ export default function UserProfile() {
     setMyWorks(false);
     setMyPurchase(true);
     setMyFavorites(false);
+    artTransactionFinder();
   };
 
   const viewMyFavorites = (e) => {
@@ -72,6 +76,23 @@ export default function UserProfile() {
       }
     });
     setMyLike(allLike);
+  }
+
+  function artTransactionFinder() {
+    let tempArtHistory = [];
+    arts.forEach((art) => {
+      transactionHistory.forEach((trans) => {
+        let isExist = trans.arts.find((transArt) => transArt.id === art._id);
+        if (isExist) {
+          tempArtHistory.push({
+            transaction: trans,
+            artData: art,
+          });
+        }
+      });
+    });
+    setMyPurchaseList(tempArtHistory);
+    // console.log(transactionHistory);
   }
 
   return (
@@ -149,7 +170,11 @@ export default function UserProfile() {
                     userDataById?.data?.arts.length === 0 ? (
                       <>
                         <div className="col-lg text-center pt-5">
-                        <img src="/images/empty.svg" className="w-25"/>
+                          <img
+                            src="/images/empty.svg"
+                            className="w-25"
+                            alt="empty"
+                          />
                           <h4 className="mt-5">There's No Art to Show</h4>
                         </div>
                       </>
@@ -163,11 +188,17 @@ export default function UserProfile() {
                   )}
 
                   {myPurchases ? (
-                    transactionHistory.length === 0 ? (
+                    myPurchaseList.length === 0 ? (
                       <>
                         <div className="col-lg text-center pt-5">
-                        <img src="/images/empty.svg" className="w-25"/>
-                          <h4 className="mt-5">There's No Purchase History to Show</h4>
+                          <img
+                            src="/images/empty.svg"
+                            className="w-25"
+                            alt="empty"
+                          />
+                          <h4 className="mt-5">
+                            There's No Purchase History to Show
+                          </h4>
                         </div>
                       </>
                     ) : (
@@ -183,12 +214,9 @@ export default function UserProfile() {
                             </tr>
                           </thead>
                           <tbody>
-                            {transactionHistory?.map((history) => {
+                            {myPurchaseList?.map((history, i) => {
                               return (
-                                <MyTransactionCard
-                                  key={history._id}
-                                  history={history}
-                                />
+                                <MyTransactionCard key={i} history={history} />
                               );
                             })}
                           </tbody>
@@ -202,8 +230,14 @@ export default function UserProfile() {
                     myLike?.length === 0 ? (
                       <>
                         <div className="col-lg text-center pt-5">
-                        <img src="/images/empty.svg" className="w-25"/>
-                          <h4 className="mt-5">There's No Favorite to show</h4>
+                          <img
+                            src="/images/empty.svg"
+                            className="w-25"
+                            alt="empty"
+                          />
+                          <h4 onClick={artTransactionFinder} className="mt-5">
+                            There's No Favorite to show
+                          </h4>
                         </div>
                       </>
                     ) : (
