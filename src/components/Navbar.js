@@ -44,7 +44,9 @@ export default function Navbar() {
       dispatch(searchKeyword(ev.target.value.toLowerCase()));
     }
   };
-
+  const clearSearch=()=>{
+    dispatch(searchKeyword(""));
+  }
   return (
     <nav
       className="navbar navbar-expand-lg navbar-light"
@@ -53,7 +55,7 @@ export default function Navbar() {
     >
       <div className="container justify-content-between align-items-center">
         <Link className="navbar-brand" to="/">
-          <img src="/images/LogoImage.png" alt="logo" />
+          <img src="/images/LogoImage.png" alt="logo" onClick={clearSearch}/>
         </Link>
         {location.pathname === "/" && (
           <form className="d-flex position-relative" style={{ width: "40%" }}>
