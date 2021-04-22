@@ -190,3 +190,11 @@ export default function ShoppingCart() {
     </>
   );
 }
+
+// const transactionToken = await snap.createTransactionToken({
+//   transaction_details: {
+//     order_id: orderId,
+//     gross_amount,
+//   },
+//   enabled_payments: ["credit_card"],
+// });
